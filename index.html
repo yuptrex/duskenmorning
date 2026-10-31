@@ -255,6 +255,20 @@ h1,h2,h3{font-family:'Caveat', cursive; font-weight:700; margin:0;}
   margin-top:16px; font-family:'Caveat',cursive; font-size:30px; color:#2e3a52;
 }
 
+
+/* ---------- Minimal page-view number ---------- */
+.view-counter-wrap{
+  display:flex; justify-content:center; padding:0 18px 30px;
+  position:relative; z-index:1;
+}
+.view-counter{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:42px; min-height:30px; padding:3px 11px;
+  background:#fffdf4; border:1px solid #d8cba3; border-radius:3px;
+  box-shadow:2px 2px 0 rgba(0,0,0,.05); color:#2e3a52;
+  font-family:'Caveat',cursive; font-size:20px; line-height:1;
+}
+
 footer{
   text-align:center; color:var(--ink-soft); font-size:14px;
   padding:0 20px 60px; position:relative; z-index:1;
@@ -1593,7 +1607,44 @@ footer .ig-link{font-size:20px; margin-top:8px;}
   </div>
 </div>
 
-<footer>made with way too many feelings, one bench, and a hundred little clocks. 🕰️<br><a class="ig-link" href="https://www.instagram.com/dusknmorning/" target="_blank" rel="noopener">📸 @dusknmorning</a></footer>
+<div class="view-counter-wrap" aria-live="polite">
+  <div class="view-counter" id="view-count" title="Total views">…</div>
+</div>
+
+<script>
+// A directly opened index.html counts locally in this browser.
+// The deployed Vercel site uses one shared, persistent Upstash counter.
+(async function loadViewCount(){
+  const display = document.getElementById('view-count');
+  const isLocalFile = window.location.protocol === 'file:' ||
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1';
+
+  if (isLocalFile) {
+    try {
+      const key = 'dusk-and-morning:local-views';
+      const views = Number(localStorage.getItem(key) || 0) + 1;
+      localStorage.setItem(key, String(views));
+      display.textContent = views.toLocaleString();
+      display.title = 'Views on this browser only';
+    } catch (error) {
+      display.textContent = '—';
+      display.title = 'Local view count is unavailable in this browser';
+    }
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/views', { method: 'GET', cache: 'no-store' });
+    if (!response.ok) throw new Error('Counter service unavailable');
+    const data = await response.json();
+    display.textContent = Number(data.views).toLocaleString();
+  } catch (error) {
+    display.textContent = '—';
+    display.title = 'Shared view count unavailable. Check the Vercel and Upstash setup.';
+  }
+})();
+</script>
 
 </body>
 </html>
