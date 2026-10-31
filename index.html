@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dusk &amp; Morning — My Notebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3ecd9;
+  --paper-shadow:#e4d8ba;
+  --line-blue:#9fb8d6;
+  --margin-red:#c4716c;
+  --ink:#30323a;
+  --ink-soft:#54565f;
+  --tape:#e8dcb0;
+  --yellow:#fdf0a8;
+  --yellow-edge:#e8d66e;
+  --pink:#f7d9de;
+  --pink-edge:#e5a9b3;
+  --blue:#d9e6ee;
+  --blue-edge:#a7c3d6;
+  --sage:#dfe6cf;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    repeating-linear-gradient(var(--paper) 0 31px, var(--line-blue) 31px 32px),
+    var(--paper);
+  background-attachment:local;
+  color:var(--ink);
+  font-family:'Patrick Hand', cursive, system-ui;
+  font-size:19px;
+  line-height:32px;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image: radial-gradient(circle at 25% 15%, rgba(0,0,0,0.02), transparent 60%),
+                     radial-gradient(circle at 80% 70%, rgba(0,0,0,0.02), transparent 55%);
+  pointer-events:none;
+  z-index:0;
+}
+.margin-line{
+  position:fixed; top:0; bottom:0; left:72px;
+  width:2px; background:var(--margin-red); opacity:.35;
+  z-index:0;
+}
+@media (max-width:720px){ .margin-line{left:34px;} }
+
+h1,h2,h3{font-family:'Caveat', cursive; font-weight:700; margin:0;}
+
+/* ---------- Header / cover page ---------- */
+.cover{
+  position:relative; z-index:1;
+  max-width:900px; margin:0 auto; padding:70px 90px 40px 100px;
+}
+@media (max-width:720px){ .cover{padding:50px 22px 30px 52px;} }
+
+.cover-tape{
+  position:absolute; top:18px; left:50%; transform:translateX(-50%) rotate(-2deg);
+  width:140px; height:38px;
+  background:rgba(232,220,176,0.75);
+  border:1px solid rgba(0,0,0,0.05);
+  box-shadow:0 2px 4px rgba(0,0,0,0.08);
+}
+
+.title-main{
+  font-size:clamp(48px,8vw,76px);
+  color:#2e3a52;
+  text-shadow:1px 1px 0 rgba(255,255,255,0.5);
+  line-height:1;
+}
+.title-sub{
+  font-family:'Patrick Hand',cursive;
+  font-size:20px; color:var(--ink-soft);
+  margin-top:10px;
+  max-width:60ch;
+}
+.title-sub b{color:var(--ink);}
+
+.blurb{
+  margin-top:22px;
+  font-size:19px;
+  color:var(--ink-soft);
+  font-style:italic;
+  border-left:3px dashed var(--margin-red);
+  padding-left:16px;
+  max-width:58ch;
+}
+
+.doodle-row{
+  margin-top:26px; font-size:26px; letter-spacing:10px;
+}
+
+/* ---------- Sticky nav (desktop) ---------- */
+.nav-wrap{
+  position:sticky; top:0; z-index:5;
+  background:var(--paper);
+  border-bottom:2px solid var(--line-blue);
+  box-shadow:0 2px 6px rgba(0,0,0,0.06);
+}
+.nav-scroll{
+  max-width:1200px; margin:0 auto;
+  display:flex; gap:4px; overflow-x:auto;
+  padding:10px 14px;
+  scrollbar-width:thin;
+}
+.nav-link{
+  flex:0 0 auto;
+  display:flex; flex-direction:column; align-items:flex-start;
+  text-decoration:none; color:var(--ink);
+  background:var(--sage);
+  border:1.5px solid #c3cdb0;
+  border-radius:3px 9px 3px 9px;
+  padding:6px 12px;
+  font-family:'Patrick Hand',cursive;
+  font-size:14px; line-height:1.25;
+  transform:rotate(-0.6deg);
+  transition:transform .15s ease;
+  white-space:nowrap;
+}
+.nav-link:nth-child(even){ background:var(--blue); border-color:var(--blue-edge); transform:rotate(0.6deg);}
+.nav-link:nth-child(3n){ background:var(--pink); border-color:var(--pink-edge); transform:rotate(-0.4deg);}
+.nav-link:hover{ transform:rotate(0deg) translateY(-2px); }
+.nav-num{font-family:'Caveat',cursive; font-size:20px; font-weight:700;}
+.nav-title{font-weight:700;}
+.nav-range{color:var(--ink-soft); font-size:12px;}
+
+/* ---------- Chapter divider ---------- */
+.chapter{
+  position:relative; z-index:1;
+  max-width:1200px; margin:0 auto;
+  padding:48px 46px 20px 100px;
+}
+@media (max-width:720px){ .chapter{padding:36px 18px 10px 52px;} }
+
+.chapter-divider{
+  position:relative;
+  background:var(--paper);
+  border:2px solid #d8cba3;
+  border-radius:2px;
+  padding:26px 30px 22px;
+  box-shadow:4px 4px 0 rgba(0,0,0,0.06);
+  margin-bottom:30px;
+}
+.tab{
+  position:absolute; top:-18px; left:28px;
+  background:var(--yellow);
+  border:1.5px solid var(--yellow-edge);
+  padding:4px 14px;
+  font-family:'Caveat',cursive; font-weight:700; font-size:18px;
+  transform:rotate(-3deg);
+  box-shadow:2px 2px 0 rgba(0,0,0,0.08);
+}
+.chapter-title{font-size:clamp(32px,5vw,46px); color:#2e3a52; margin-top:6px;}
+.chapter-meta{
+  font-family:'Patrick Hand',cursive; font-size:16px; color:var(--ink-soft);
+  margin:4px 0 10px;
+}
+.chapter-note{font-size:17px; color:var(--ink); max-width:72ch;}
+
+/* ---------- Entry grid & cards ---------- */
+.entry-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:22px;
+}
+.entry{
+  position:relative;
+  border-radius:2px;
+  padding:16px 18px 18px;
+  box-shadow:3px 4px 7px rgba(0,0,0,0.10);
+  transform:rotate(var(--rot,0deg));
+}
+.entry:nth-child(5n+1){--rot:-0.6deg;}
+.entry:nth-child(5n+2){--rot:0.5deg;}
+.entry:nth-child(5n+3){--rot:-0.3deg;}
+.entry:nth-child(5n+4){--rot:0.7deg;}
+.entry:nth-child(5n+5){--rot:-0.5deg;}
+
+.sticky-yellow{background:var(--yellow); border:1.5px solid var(--yellow-edge);}
+.sticky-pink{background:var(--pink); border:1.5px solid var(--pink-edge);}
+.sticky-blue{background:var(--blue); border:1.5px solid var(--blue-edge);}
+
+.entry-head{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+.entry-num{
+  font-family:'Caveat',cursive; font-weight:700; font-size:18px;
+  color:var(--ink-soft);
+}
+.entry-emoji{font-size:22px;}
+.entry-title{font-size:25px; color:#2e3a52; line-height:1.05;}
+
+.entry-place{font-size:15px; color:var(--ink-soft); margin:2px 0 8px;}
+.entry-note{font-size:17.5px; line-height:1.45; margin:0 0 10px;}
+.entry-line{
+  font-style:italic; font-size:16.5px;
+  border-left:2.5px solid var(--margin-red);
+  padding-left:10px; margin:0 0 10px; color:#473030;
+}
+.entry-tag{
+  font-size:13.5px; color:#6b6450;
+  border-top:1px dashed rgba(0,0,0,0.15);
+  padding-top:7px; margin:0;
+}
+
+/* ---------- Guide cards ---------- */
+.guide-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+@media (max-width:760px){ .guide-grid{grid-template-columns:1fr;} }
+.guide-card{
+  background:#fffdf4; border:1.5px solid #ddd0a4;
+  border-radius:2px; padding:20px 22px;
+  box-shadow:3px 3px 0 rgba(0,0,0,0.05);
+}
+.guide-card h3{font-size:24px; margin-bottom:10px; color:#2e3a52;}
+.guide-card ul{margin:0; padding-left:20px;}
+.guide-card li{margin-bottom:9px; font-size:17px; line-height:1.4;}
+
+/* ---------- Appendix ---------- */
+.ref-block{margin-bottom:28px;}
+.ref-block h3{font-size:24px; color:#2e3a52; margin-bottom:6px;}
+.ref-sub{font-size:15px; color:var(--ink-soft); margin:0 0 10px;}
+.echo-table{border-collapse:collapse; width:100%; max-width:760px;}
+.echo-table td{padding:8px 10px; font-size:16px; vertical-align:top;}
+.echo-table tr{border-bottom:1px dashed #cfc298;}
+.echo-table .arrow{color:var(--margin-red); font-weight:700; text-align:center; width:30px;}
+.chips{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{
+  font-family:'Patrick Hand',cursive; font-size:15px;
+  padding:5px 12px; border-radius:20px;
+  border:1.5px solid; transform:rotate(-1deg);
+}
+.chip.peak{background:var(--yellow); border-color:var(--yellow-edge);}
+.chip.punch{background:var(--blue); border-color:var(--blue-edge);}
+.chip.light{background:var(--pink); border-color:var(--pink-edge);}
+
+/* ---------- Closing card ---------- */
+.closing{
+  max-width:900px; margin:30px auto 90px; padding:0 46px 0 100px;
+  position:relative; z-index:1;
+}
+@media (max-width:720px){ .closing{padding:0 18px 0 52px;} }
+.closing-card{
+  background:#fffdf4; border:2px solid #d8cba3;
+  padding:34px 36px; text-align:center;
+  box-shadow:4px 4px 0 rgba(0,0,0,0.07);
+}
+.closing-card p{font-size:21px; font-style:italic; line-height:1.5; margin:0;}
+.closing-end{
+  margin-top:16px; font-family:'Caveat',cursive; font-size:30px; color:#2e3a52;
+}
+
+footer{
+  text-align:center; color:var(--ink-soft); font-size:14px;
+  padding:0 20px 60px; position:relative; z-index:1;
+}
+
+::selection{background:var(--yellow-edge);}
+
+.ig-link{display:inline-block; margin-top:14px; padding:4px 14px; font-family:'Caveat',cursive; font-size:24px; font-weight:700; color:#2e3a52; background:var(--yellow); border:1.5px solid var(--yellow-edge); border-radius:3px; text-decoration:none; transform:rotate(-1deg); box-shadow:2px 2px 0 rgba(0,0,0,0.08);}
+.ig-link:hover{background:var(--pink); border-color:var(--pink-edge);}
+footer .ig-link{font-size:20px; margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="margin-line"></div>
+
+<header class="cover">
+  <div class="cover-tape"></div>
+  <h1 class="title-main">Dusk &amp; Morning</h1>
+  <p class="title-sub">my notes on <b>all 100 episodes</b> — a girl with a tired heart, a boy slowly going deaf, and one bench that holds the whole story. 🪑🍂</p>
+  <p class="blurb">okay so I read the whole thing in one sitting and I NEEDED to write this all down somewhere, so. here it is. my notebook. every episode, every little detail I noticed, every moment that got me. hope you love it as much as I do 🤍</p>
+  <a class="ig-link" href="https://www.instagram.com/dusknmorning/" target="_blank" rel="noopener">📸 follow the story on Instagram: @dusknmorning</a>
+  <div class="doodle-row">🕰️ 🧣 🔔 🌊 💌 🪶</div>
+</header>
+
+<nav class="nav-wrap">
+  <div class="nav-scroll">
+    <a href="#ch1" class="nav-link"><span class="nav-num">01</span><span class="nav-title">Strangers</span><span class="nav-range">EP 01–10</span></a>
+<a href="#ch2" class="nav-link"><span class="nav-num">02</span><span class="nav-title">Letters &amp; Rain</span><span class="nav-range">EP 11–20</span></a>
+<a href="#ch3" class="nav-link"><span class="nav-num">03</span><span class="nav-title">Falling</span><span class="nav-range">EP 21–30</span></a>
+<a href="#ch4" class="nav-link"><span class="nav-num">04</span><span class="nav-title">Golden Days</span><span class="nav-range">EP 31–40</span></a>
+<a href="#ch5" class="nav-link"><span class="nav-num">05</span><span class="nav-title">Cracks</span><span class="nav-range">EP 41–50</span></a>
+<a href="#ch6" class="nav-link"><span class="nav-num">06</span><span class="nav-title">The Sea</span><span class="nav-range">EP 51–60</span></a>
+<a href="#ch7" class="nav-link"><span class="nav-num">07</span><span class="nav-title">Monsoon Vows</span><span class="nav-range">EP 61–70</span></a>
+<a href="#ch8" class="nav-link"><span class="nav-num">08</span><span class="nav-title">Borrowed Time</span><span class="nav-range">EP 71–80</span></a>
+<a href="#ch9" class="nav-link"><span class="nav-num">09</span><span class="nav-title">The Last Season</span><span class="nav-range">EP 81–90</span></a>
+<a href="#ch10" class="nav-link"><span class="nav-num">10</span><span class="nav-title">Letter One Hundred</span><span class="nav-range">EP 91–100</span></a>
+    <a href="#guide" class="nav-link" style="background:#fffdf4;border-color:#ddd0a4;"><span class="nav-num">?</span><span class="nav-title">Characters &amp; Motifs</span><span class="nav-range">read first!</span></a>
+    <a href="#appendix" class="nav-link" style="background:#fffdf4;border-color:#ddd0a4;"><span class="nav-num">★</span><span class="nav-title">Quick Reference</span><span class="nav-range">repeated lines etc.</span></a>
+  </div>
+</nav>
+
+
+    <section class="chapter" id="guide">
+      <div class="chapter-divider">
+        <div class="tab">p.s.</div>
+        <h2 class="chapter-title">Before You Start... 👋</h2>
+        <p class="chapter-note">quick cheat sheet so you don't get lost! I wish someone gave ME one of these before I started reading lol</p>
+      </div>
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h3>🧑‍🤝‍🧑 who's who</h3>
+          <ul>
+            <li><b>Vafiya</b>, 19 — gentle, funny, braver than she looks. lost her mum two months before the story starts, got the same weak heart. wears her mum's blue scarf, hums her lullaby, writes letters she can never send.</li>
+            <li><b>Zayn</b>, 20 — quiet, careful, kind. fixes watches in his late grandfather's shop. left ear already gone, right ear fading fast. used to play guitar. stopped.</li>
+            <li><b>Khala Sabina</b> — Vafiya's aunt. warm, practical, hides her fear behind food (always).</li>
+            <li><b>Chacha Rahim</b> — runs the tea stall by the park. sees everything. says almost nothing.</li>
+            <li><b>Imran</b> — Zayn's loud, loyal best friend. makes everyone laugh, about 90% of the time.</li>
+            <li><b>Dr. Meher</b> — Vafiya's heart doctor (a cardiologist). honest, gentle, secretly my favorite side character.</li>
+            <li><b>Noor</b> — a small girl who shows up near the very end. just wait.</li>
+          </ul>
+        </div>
+        <div class="guide-card">
+          <h3>🔑 motifs to watch for</h3>
+          <ul>
+            <li><b>The Bench</b> — where everything starts AND ends. the loose slat is their secret mailbox.</li>
+            <li><b>6:40</b> — when Zayn's grandfather's watch stopped. dawn 6:40 = Zayn reads. dusk 6:40 = Vafiya writes. the one minute where Morning and Dusk actually meet.</li>
+            <li><b>Three taps</b> — on the wrist, on glass, wherever. means "I'm here." this one will wreck you by the end, I promise.</li>
+            <li><b>The Blue Scarf</b> — her mum's love, always close by.</li>
+            <li><b>The Lullaby</b> — the tune she hums. he hears it before he even knows her.</li>
+            <li><b>Silence &amp; Sound</b> — he's losing sound. she's losing time. that's the whole thing, really.</li>
+            <li><b>Letters</b> — they fall in love in letters. they lose each other, and find each other, in letters.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="ch1">
+      <div class="chapter-divider">
+        <div class="tab">ch. 01</div>
+        <h2 class="chapter-title">Strangers</h2>
+        <p class="chapter-meta">EP 01–10 &nbsp;·&nbsp; Autumn</p>
+        <p class="chapter-note">okay so?? this is where it ALL starts and they don't even know each other yet lol. a boy who can't hear and a girl who's scared of her own heart, living in the same city and not knowing it. grab a tissue early, I'm just saying 🤧</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-blue" id="ep1">
+          <div class="entry-head">
+            <span class="entry-num">#01</span>
+            <span class="entry-emoji">🕰️</span>
+            <h3 class="entry-title">Tick</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · dawn · quiet</p>
+          <p class="entry-note">ok we open on a HUNDRED clocks ticking in the dark and a boy who can only hear half of them because his left ear just... gave up. he winds his grandfather's watch (stopped forever at 6:40, never fixed, we'll come back to this, trust me) and sets it down like it's very special. the SHOP BELL RINGS. he doesn't hear it. nobody's even there yet and I already feel something 😶</p>
+          <p class="entry-line">&ldquo;Half a world is still a world.&rdquo;</p>
+          <p class="entry-tag">✎ first impression</p>
+        </article>
+        <article class="entry sticky-pink" id="ep2">
+          <div class="entry-head">
+            <span class="entry-num">#02</span>
+            <span class="entry-emoji">🧣</span>
+            <h3 class="entry-title">The Blue Scarf</h3>
+          </div>
+          <p class="entry-place">📍 Khala Sabina&#x27;s house · morning</p>
+          <p class="entry-note">meet Vafiya!! she ties her mum's scarf, checks the mirror, counts pills into a tiny tin, and HIDES the bottle behind the rice jar before her aunt walks in. she's already smiling by the time Khala sees her. her mum's heart stopped two months ago. she has the same heart. I'm not okay!!</p>
+          <p class="entry-line">&ldquo;I&#x27;m fine, Khala. Truly.&rdquo;</p>
+          <p class="entry-tag">✎ she&#x27;s hiding something</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep3">
+          <div class="entry-head">
+            <span class="entry-num">#03</span>
+            <span class="entry-emoji">💌</span>
+            <h3 class="entry-title">Ammi&#x27;s Mailbox</h3>
+          </div>
+          <p class="entry-place">📍 The park bench · dusk (6:40)</p>
+          <p class="entry-note">she sits on the bench her mum used to sit on and writes her a letter because saying it out loud feels Too Loud. her hand finds a loose slat (a bench board) underneath — just enough space for a folded page. she slides it in. a mailbox. to heaven. okay. I need a minute.</p>
+          <p class="entry-line">&ldquo;Dear Ammi, the bench kept your seat warm.&rdquo;</p>
+          <p class="entry-tag">✎ THE bench (remember this)</p>
+        </article>
+        <article class="entry sticky-blue" id="ep4">
+          <div class="entry-head">
+            <span class="entry-num">#04</span>
+            <span class="entry-emoji">🎀</span>
+            <h3 class="entry-title">The Letter Under the Slat</h3>
+          </div>
+          <p class="entry-place">📍 The park · dawn (6:40)</p>
+          <p class="entry-note">Zayn ties his shoe RIGHT at that bench and his fingers brush paper under the slat. he reads a line. then another. looks around like the writer might be hiding behind a tree 😭 slides it back gently and taps twice — I received this. he doesn't even know whose letter it is yet and he's already being so careful with it</p>
+          <p class="entry-line">&ldquo;Whoever you are, I hope she hears you.&rdquo;</p>
+          <p class="entry-tag">✎ the almost-meeting</p>
+        </article>
+        <article class="entry sticky-pink" id="ep5">
+          <div class="entry-head">
+            <span class="entry-num">#05</span>
+            <span class="entry-emoji">🚌</span>
+            <h3 class="entry-title">Bus No. 7</h3>
+          </div>
+          <p class="entry-place">📍 City bus · morning rush</p>
+          <p class="entry-note">THEY'RE ON THE SAME BUS and don't know it yet!! she hums her mum's lullaby, his good ear catches the thread of it and for the first time in weeks a sound reaches for him. he turns — bus lurches — doors open — all he gets is a flash of blue scarf stepping into the crowd. NOOO come back</p>
+          <p class="entry-line">&ldquo;I know that tune from somewhere I&#x27;ve never been.&rdquo;</p>
+          <p class="entry-tag">✎ so close??</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep6">
+          <div class="entry-head">
+            <span class="entry-num">#06</span>
+            <span class="entry-emoji">☕</span>
+            <h3 class="entry-title">Chacha&#x27;s Chai</h3>
+          </div>
+          <p class="entry-place">📍 Chacha Rahim&#x27;s tea stall · afternoon</p>
+          <p class="entry-note">Imran tells a joke, Zayn laughs a beat too late (he didn't actually hear it lol). Chacha Rahim says nothing, just quietly moves the sugar bowl to Zayn's left side, where he'll see it. zero words exchanged. a whole conversation happened anyway. this old man SEES everything 👀</p>
+          <p class="entry-line">&ldquo;You&#x27;re a bad liar, beta.&rdquo; / &ldquo;I heard you fine.&rdquo;</p>
+          <p class="entry-tag">✎ a kind little lie</p>
+        </article>
+        <article class="entry sticky-blue" id="ep7">
+          <div class="entry-head">
+            <span class="entry-num">#07</span>
+            <span class="entry-emoji">🏥</span>
+            <h3 class="entry-title">The Corridor</h3>
+          </div>
+          <p class="entry-place">📍 City hospital · same hallway</p>
+          <p class="entry-note">okay THIS one hurt. she walks out of the heart doctor's room — "your heart is tired" — he walks out of the ear doctor's room — "the right ear will follow" — and they pass each other, shoulder to shoulder, eyes down on their own papers. a door closes between them. neither looks up. closest they've ever been and they don't even know it 💔</p>
+          <p class="entry-line">&ldquo;Two sentences, two doctors, one hallway.&rdquo;</p>
+          <p class="entry-tag">✎ ouch. just. ouch</p>
+        </article>
+        <article class="entry sticky-pink" id="ep8">
+          <div class="entry-head">
+            <span class="entry-num">#08</span>
+            <span class="entry-emoji">😳</span>
+            <h3 class="entry-title">A Reply</h3>
+          </div>
+          <p class="entry-place">📍 The park bench · dusk</p>
+          <p class="entry-note">she checks the slat expecting her own letter still sitting there and instead there's a REPAIR TAG with handwriting on the back. "Dear Stranger, your Ammi is listening. I'm only half-listening myself, but I'll try. —Morning." she laughs out loud for the first time in TWO MONTHS and then claps a hand over her mouth like she got caught 🥹</p>
+          <p class="entry-line">&ldquo;Morning?&rdquo;</p>
+          <p class="entry-tag">✎ IT BEGINS</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep9">
+          <div class="entry-head">
+            <span class="entry-num">#09</span>
+            <span class="entry-emoji">🖋️</span>
+            <h3 class="entry-title">Two Pens</h3>
+          </div>
+          <p class="entry-place">📍 Split screen: her kitchen / his workbench</p>
+          <p class="entry-note">she writes, erases, writes again. he does the same thing across town at the exact same time, we LOVE seeing two places at the same time. she signs it Dusk. Khala asks who she's smiling at — "nobody" — Imran asks Zayn the same thing at the same moment — "nobody" — both lying, both SO happy about it 🙈</p>
+          <p class="entry-line">&ldquo;Names are heavy. Let&#x27;s stay light.&rdquo;</p>
+          <p class="entry-tag">✎ two secret best friends</p>
+        </article>
+        <article class="entry sticky-blue" id="ep10">
+          <div class="entry-head">
+            <span class="entry-num">#10</span>
+            <span class="entry-emoji">🌧️</span>
+            <h3 class="entry-title">The Rule</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk, then dawn</p>
+          <p class="entry-note">they make a PACT in their letters — no names, no faces, only the bench. just Morning and Dusk, two people who never actually overlap (yeah ok we'll see about that 👀). she tucks the promise under the slat. first raindrop lands on the wood right as the chapter ends. something's coming.</p>
+          <p class="entry-line">&ldquo;Only the bench.&rdquo;</p>
+          <p class="entry-tag">✎ end of ch.1 — a hint of what's coming!!</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch2">
+      <div class="chapter-divider">
+        <div class="tab">ch. 02</div>
+        <h2 class="chapter-title">Letters &amp; Rain</h2>
+        <p class="chapter-meta">EP 11–20 &nbsp;·&nbsp; Autumn</p>
+        <p class="chapter-note">the letters get smaller and TRUER, the rain really does ruin things, and then — oh. OH. she figures it out and I had to put my phone down for a second 😭</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-yellow" id="ep11">
+          <div class="entry-head">
+            <span class="entry-num">#11</span>
+            <span class="entry-emoji">🐦</span>
+            <h3 class="entry-title">Small Truths</h3>
+          </div>
+          <p class="entry-place">📍 The park · dawn and dusk, back and forth</p>
+          <p class="entry-note">their letters go from careful to actually honest. she hates cold tea. he's scared of quiet rooms. she was scared of the dark till 14. he can't whistle (same, honestly). then she asks what his morning sounds like and he holds the pen for AGES before writing one word.</p>
+          <p class="entry-line">&ldquo;Birds.&rdquo; (A lie.)</p>
+          <p class="entry-tag">✎ plant this. it pays off later</p>
+        </article>
+        <article class="entry sticky-blue" id="ep12">
+          <div class="entry-head">
+            <span class="entry-num">#12</span>
+            <span class="entry-emoji">⏱️</span>
+            <h3 class="entry-title">Six-Forty</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · night</p>
+          <p class="entry-note">he tells Dusk about the grandfather's watch — stopped at 6:40 the day his grandfather died, and he's never been able to fix it. her reply is waiting for him at dawn: "maybe it isn't broken. maybe it's waiting." he just sits on the bench holding the watch, reading it over and over. I AM NOT CRYING</p>
+          <p class="entry-line">&ldquo;Maybe it&#x27;s waiting.&rdquo;</p>
+          <p class="entry-tag">✎ remember this line too!!</p>
+        </article>
+        <article class="entry sticky-pink" id="ep13">
+          <div class="entry-head">
+            <span class="entry-num">#13</span>
+            <span class="entry-emoji">💨</span>
+            <h3 class="entry-title">Wind</h3>
+          </div>
+          <p class="entry-place">📍 Main road · windy afternoon</p>
+          <p class="entry-note">the wind just PULLS her scarf off her neck and she runs after it through traffic laughing — then not laughing. her chest tightens, steps slow down, hand goes to her ribs. the scarf rises over the rooftops and is just. gone. she sits on the curb and breathes. and breathes.</p>
+          <p class="entry-line">&ldquo;Not that. Anything but that.&rdquo;</p>
+          <p class="entry-tag">✎ scary moment</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep14">
+          <div class="entry-head">
+            <span class="entry-num">#14</span>
+            <span class="entry-emoji">🔔</span>
+            <h3 class="entry-title">The Shop Bell</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · afternoon</p>
+          <p class="entry-note">the scarf drifted into an OPEN SHOP DOOR and landed on a workbench and she follows it in. the bell rings right on his deaf side — he doesn't turn. she waits, coughs, taps the counter. he finally looks up startled and. there it is. they see each other's faces for the first time ever and don't even know who the other person IS yet</p>
+          <p class="entry-line">&ldquo;Is this yours?&rdquo;</p>
+          <p class="entry-tag">✎ THEY MET. kind of. aww</p>
+        </article>
+        <article class="entry sticky-blue" id="ep15">
+          <div class="entry-head">
+            <span class="entry-num">#15</span>
+            <span class="entry-emoji">🙊</span>
+            <h3 class="entry-title">&quot;Didn&#x27;t You Hear Me?&quot;</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · same moment</p>
+          <p class="entry-note">she's annoyed — "didn't you hear the bell?! I stood here for a full minute!" — and he just touches his ear. "I... don't. on this side." her anger fades into embarrassment, she mumbles thanks and rushes out. that night she tells Khala about "a rude boy at the watch shop" and can't stop smiling while she says it 🙈 oh, girl.</p>
+          <p class="entry-line">&ldquo;Sorry. My left ear...&rdquo;</p>
+          <p class="entry-tag">✎ oops. she felt bad</p>
+        </article>
+        <article class="entry sticky-pink" id="ep16">
+          <div class="entry-head">
+            <span class="entry-num">#16</span>
+            <span class="entry-emoji">🪑</span>
+            <h3 class="entry-title">Opposite Ends</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">Zayn closes the shop early hoping to catch the letter-writer. Vafiya shows up for the SAME reason. each finds a total stranger already sitting there ("the rude girl" / "the boy from the shop") and they sit stiffly at opposite ends pretending to read. the loose slat sits right between them and NEITHER ONE REACHES FOR IT. I am going insane</p>
+          <p class="entry-line">&ldquo;Silence, two metres of wood, and a secret in the middle.&rdquo;</p>
+          <p class="entry-tag">✎ it's so unfair, and it's KILLING me</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep17">
+          <div class="entry-head">
+            <span class="entry-num">#17</span>
+            <span class="entry-emoji">☔</span>
+            <h3 class="entry-title">One Umbrella</h3>
+          </div>
+          <p class="entry-place">📍 The park path · rain</p>
+          <p class="entry-note">he offers his umbrella, she says no, then yes a beat later (classic). they walk to the bus stop together, she remembers to face him so he can read her lips. names FINALLY happen — "I'm Vafiya." "Zayn." — and then she hums without thinking and he goes very still. "that tune... bus 7." oh he KNOWS</p>
+          <p class="entry-line">&ldquo;You ride 7?&rdquo;</p>
+          <p class="entry-tag">✎ the pieces are connecting!!</p>
+        </article>
+        <article class="entry sticky-blue" id="ep18">
+          <div class="entry-head">
+            <span class="entry-num">#18</span>
+            <span class="entry-emoji">💧</span>
+            <h3 class="entry-title">Drowned Words</h3>
+          </div>
+          <p class="entry-place">📍 The bench · next morning and evening</p>
+          <p class="entry-note">the rain soaked the letters under the slat, ink bleeding into blue rivers. he finds it first, then she does at dusk, holding the wet paper like it's something wounded. neither knows the other is sad about the exact same thing at the exact same bench. he rewrites it all from memory.</p>
+          <p class="entry-line">&ldquo;The rain washed your words away. I kept every one.&rdquo;</p>
+          <p class="entry-tag">✎ he remembered every word 🥺</p>
+        </article>
+        <article class="entry sticky-pink" id="ep19">
+          <div class="entry-head">
+            <span class="entry-num">#19</span>
+            <span class="entry-emoji">🎧</span>
+            <h3 class="entry-title">Feel the Tick</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · afternoon</p>
+          <p class="entry-note">she comes back with tea as an apology. he shows her the pocket watch. she asks him to wind it then holds it gently against his jaw. "listen." through bone, through skull, a faint tick reaches him — and Zayn, who hasn't heard a watch in two years, cries without making a single sound. I'm actually sobbing</p>
+          <p class="entry-line">&ldquo;Hold it to your jaw. Now listen.&rdquo;</p>
+          <p class="entry-tag">✎ PEAK. a true peak episode</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep20">
+          <div class="entry-head">
+            <span class="entry-num">#20</span>
+            <span class="entry-emoji">✍️</span>
+            <h3 class="entry-title">The Same Handwriting</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · same moment</p>
+          <p class="entry-note">while he's wiping his eyes she glances at a repair tag on the counter. the loop of the y. the slant of the M. she goes very still. she looks at his hands, the string, the brown paper. it was never a stranger under the slat. it was HIM this whole time. she says nothing. just smiles. and leaves with her heart doing something it is absolutely not allowed to do 😭</p>
+          <p class="entry-line">&ldquo;Morning.&rdquo; (a whisper, to no one)</p>
+          <p class="entry-tag">✎ end of ch.2 — SHE KNOWS!!!</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch3">
+      <div class="chapter-divider">
+        <div class="tab">ch. 03</div>
+        <h2 class="chapter-title">Falling</h2>
+        <p class="chapter-meta">EP 21–30 &nbsp;·&nbsp; Winter</p>
+        <p class="chapter-note">she KNOWS now but doesn't say anything yet (so bold, I love her), then she finally shows him who she is and after that it's just. soft. so soft. first kiss coming, get ready 🫶</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-blue" id="ep21">
+          <div class="entry-head">
+            <span class="entry-num">#21</span>
+            <span class="entry-emoji">🔍</span>
+            <h3 class="entry-title">The Test</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk, then dawn</p>
+          <p class="entry-note">she doesn't tell him who she is yet — writes one more letter: "tell me honestly, what does your morning sound like?" then HIDES behind the tea stall at dawn to watch him read it. this is a whole plan. she sits very still watching him sit very still. so tense!!</p>
+          <p class="entry-line">&ldquo;Tell me honestly.&rdquo;</p>
+          <p class="entry-tag">✎ she&#x27;s testing him</p>
+        </article>
+        <article class="entry sticky-pink" id="ep22">
+          <div class="entry-head">
+            <span class="entry-num">#22</span>
+            <span class="entry-emoji">🤫</span>
+            <h3 class="entry-title">Silence</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">his letter back: "Silence, Dusk. It has been getting louder than any sound I ever heard." she reads it and the whole park just goes quiet around her. NOW she understands — the shop boy, the bell, the sugar bowl, the lie about birds. it all clicks. she cries, wipes her eyes, and decides something.</p>
+          <p class="entry-line">&ldquo;Silence, Dusk.&rdquo;</p>
+          <p class="entry-tag">✎ everything clicks into place</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep23">
+          <div class="entry-head">
+            <span class="entry-num">#23</span>
+            <span class="entry-emoji">🫂</span>
+            <h3 class="entry-title">It&#x27;s You</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · morning</p>
+          <p class="entry-note">SHE RINGS THE BELL KNOWING HE CAN'T HEAR IT and just walks right up to where he works so he'll see her. puts down the scarf, a letter, a pen. he reads the signature — Dusk. looks up. time just. stops. then they're laughing and crying at the same time and I am SO not okay rn</p>
+          <p class="entry-line">&ldquo;Hello, Morning.&rdquo; / &ldquo;Hello, Dusk.&rdquo;</p>
+          <p class="entry-tag">✎ ⭐ THE BIG MOMENT ⭐ they find out!!!</p>
+        </article>
+        <article class="entry sticky-blue" id="ep24">
+          <div class="entry-head">
+            <span class="entry-num">#24</span>
+            <span class="entry-emoji">🍂</span>
+            <h3 class="entry-title">The First Walk</h3>
+          </div>
+          <p class="entry-place">📍 Park path · afternoon</p>
+          <p class="entry-note">now that names FIT, everything is just easier. she turns her face toward him when she talks so he can read her lips. he teaches her to count seconds by watch ticks. they get lost in the old part of the park and don't mind one bit. she tells him about her mum for the first time and he doesn't say "I'm sorry" — just walks slower. he just WALKS SLOWER you guys</p>
+          <p class="entry-line">&ldquo;You don&#x27;t have to say anything. I&#x27;ll walk slower.&rdquo;</p>
+          <p class="entry-tag">✎ this man did everything right</p>
+        </article>
+        <article class="entry sticky-pink" id="ep25">
+          <div class="entry-head">
+            <span class="entry-num">#25</span>
+            <span class="entry-emoji">👆</span>
+            <h3 class="entry-title">Three Taps</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">in a crowd, in the dark, in fog — he can't always hear her. so they invent a sign: three taps on the wrist. "I'm here." they practice it ten times and giggle every single time. the simplest language in the world and somehow the most important one in this whole story (remember THIS one especially)</p>
+          <p class="entry-line">Tap. Tap. Tap. &ldquo;I&#x27;m here.&rdquo;</p>
+          <p class="entry-tag">✎ 🔑 this comes back SO many times</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep26">
+          <div class="entry-head">
+            <span class="entry-num">#26</span>
+            <span class="entry-emoji">🫖</span>
+            <h3 class="entry-title">Two Cups</h3>
+          </div>
+          <p class="entry-place">📍 Chacha Rahim&#x27;s stall · evening</p>
+          <p class="entry-note">Imran nearly drops his tea when Zayn shows up with a GIRL. talks for four minutes without stopping. Chacha Rahim says nothing but sets down two cups — no sugar for her, extra for him — exactly right without even asking. when they leave he mutters to the kettle, "finally." old man knew all along 😌</p>
+          <p class="entry-line">&ldquo;It&#x27;s the first time you&#x27;ve ordered two.&rdquo;</p>
+          <p class="entry-tag">✎ side characters being sweet</p>
+        </article>
+        <article class="entry sticky-blue" id="ep27">
+          <div class="entry-head">
+            <span class="entry-num">#27</span>
+            <span class="entry-emoji">🪁</span>
+            <h3 class="entry-title">The Kite</h3>
+          </div>
+          <p class="entry-place">📍 The hills · windy afternoon</p>
+          <p class="entry-note">he built her a kite from watch-shop paper and thin wire! she runs with it laughing, blue scarf streaming behind her, up the slope — until her steps get shorter and her hand flies to her chest. she turns it into a joke "I'm tired! you hold it!" but his eyes don't leave her hand on her chest. he noticed.</p>
+          <p class="entry-line">&ldquo;I&#x27;m tired! You hold it!&rdquo;</p>
+          <p class="entry-tag">✎ a small warning sign</p>
+        </article>
+        <article class="entry sticky-pink" id="ep28">
+          <div class="entry-head">
+            <span class="entry-num">#28</span>
+            <span class="entry-emoji">💊</span>
+            <h3 class="entry-title">The Pill</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">her bag tips, the pill tin rolls under the bench. he picks it up, reads the label. she takes it back gently — "a weak heart. a small thing. everyone has something." he nods and wants so badly to believe her. she makes him promise not to fuss. he promises. and the promise just sits in his chest like a swallowed stone 😔</p>
+          <p class="entry-line">&ldquo;Everyone has something.&rdquo;</p>
+          <p class="entry-tag">✎ he&#x27;s carrying it quietly now</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep29">
+          <div class="entry-head">
+            <span class="entry-num">#29</span>
+            <span class="entry-emoji">🎡</span>
+            <h3 class="entry-title">The Ferris Wheel</h3>
+          </div>
+          <p class="entry-place">📍 The night fair</p>
+          <p class="entry-note">at the very top, the whole town is just a handful of lights. she says something quietly and turns away. "what did you say?" she turns back and mouths it slowly so he can read every shape. he reads it. his whole face changes. okay I'm screaming a little</p>
+          <p class="entry-line">&ldquo;I... like... you.&rdquo;</p>
+          <p class="entry-tag">✎ 🎡 she says she likes him!! finally!!</p>
+        </article>
+        <article class="entry sticky-pink" id="ep30">
+          <div class="entry-head">
+            <span class="entry-num">#30</span>
+            <span class="entry-emoji">💡</span>
+            <h3 class="entry-title">The Streetlamp</h3>
+          </div>
+          <p class="entry-place">📍 A quiet street · night</p>
+          <p class="entry-note">under the one working streetlamp he tells her what he can't say out loud. first kiss — short, clumsy, PERFECT. the lamp flickers like it's holding its breath too. "same bench, every dusk?" "every dusk." the light steadies right after. end of chapter 3 and I need to go lie down 🥹</p>
+          <p class="entry-line">&ldquo;Same bench. Every dusk.&rdquo;</p>
+          <p class="entry-tag">✎ end of ch.3 — THE KISS 💋</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch4">
+      <div class="chapter-divider">
+        <div class="tab">ch. 04</div>
+        <h2 class="chapter-title">Golden Days</h2>
+        <p class="chapter-meta">EP 31–40 &nbsp;·&nbsp; Winter</p>
+        <p class="chapter-note">this whole chapter is just. them being happy. the guitar, Khala's approval, the scarf shared between two necks — and then right at the end two secrets get planted that I'm already nervous about 👀</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-blue" id="ep31">
+          <div class="entry-head">
+            <span class="entry-num">#31</span>
+            <span class="entry-emoji">🎵</span>
+            <h3 class="entry-title">Hum</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">he asks her to hum the lullaby again and asks if he can rest his fingertips on her throat while she does. she hums. for the first time he feels a song as a small trembling, rising and falling like breath. eyes closed. sound isn't gone, he realizes — it just lives somewhere else now.</p>
+          <p class="entry-line">&ldquo;Again. Slower. I want to learn it by touch.&rdquo;</p>
+          <p class="entry-tag">✎ so so soft</p>
+        </article>
+        <article class="entry sticky-pink" id="ep32">
+          <div class="entry-head">
+            <span class="entry-num">#32</span>
+            <span class="entry-emoji">🎸</span>
+            <h3 class="entry-title">The Dusty Guitar</h3>
+          </div>
+          <p class="entry-place">📍 Zayn&#x27;s attic · afternoon</p>
+          <p class="entry-note">under a sheet — a guitar. she runs a finger over the strings, looks up. "play." he shakes his head. "a guitarist who can't hear is a joke." she goes quiet for a second, then: "then I'll be your ears." he's not ready yet. she lets it go gently but tucks the sheet back more carefully than before, like putting something sleeping back to bed 🥺</p>
+          <p class="entry-line">&ldquo;A musician is someone who plays. Not someone who hears.&rdquo;</p>
+          <p class="entry-tag">✎ not yet, but soon...</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep33">
+          <div class="entry-head">
+            <span class="entry-num">#33</span>
+            <span class="entry-emoji">🍛</span>
+            <h3 class="entry-title">Khala&#x27;s Biryani</h3>
+          </div>
+          <p class="entry-place">📍 Khala Sabina&#x27;s house · evening</p>
+          <p class="entry-note">Zayn shows up with sweets and SHAKING HANDS. Khala asks him lots of questions (kindly) while he reads her lips for every question. she watches him cut Vafiya's meat without even being asked. approved by dessert. in the kitchen she grabs his sleeve: "be gentle with her heart." he doesn't yet know how for real she means that line 😢</p>
+          <p class="entry-line">&ldquo;Be gentle with her heart.&rdquo;</p>
+          <p class="entry-tag">✎ meet the family!! (and a little worry)</p>
+        </article>
+        <article class="entry sticky-blue" id="ep34">
+          <div class="entry-head">
+            <span class="entry-num">#34</span>
+            <span class="entry-emoji">⚙️</span>
+            <h3 class="entry-title">Gears</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · afternoon</p>
+          <p class="entry-note">she sits at his bench with tweezers, setting a gear smaller than a sesame seed. "if one's missing, the whole watch stops." "and if one's crooked?" "then it runs, but it tells the wrong time." she looks down at her own chest. "so what do you do?" "you fix it. or you keep it company." OKAY THAT LINE HIT ME SO HARD</p>
+          <p class="entry-line">&ldquo;You fix it, or you keep it company.&rdquo;</p>
+          <p class="entry-tag">✎ the whole story in one line, sort of</p>
+        </article>
+        <article class="entry sticky-pink" id="ep35">
+          <div class="entry-head">
+            <span class="entry-num">#35</span>
+            <span class="entry-emoji">🧣</span>
+            <h3 class="entry-title">One Scarf, Two Necks</h3>
+          </div>
+          <p class="entry-place">📍 The bench · cold evening</p>
+          <p class="entry-note">first real cold of winter. Chacha sends two chais. she unwinds the blue scarf and wraps one end around her neck, one end around his, knotted together like a gift. steam rising, nobody talking. warmest minute of the whole year, probably 🫶</p>
+          <p class="entry-line">&ldquo;Closer. This scarf is only so long.&rdquo;</p>
+          <p class="entry-tag">✎ cutest thing I&#x27;ve ever seen</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep36">
+          <div class="entry-head">
+            <span class="entry-num">#36</span>
+            <span class="entry-emoji">📓</span>
+            <h3 class="entry-title">Before I&#x27;m Old</h3>
+          </div>
+          <p class="entry-place">📍 Her room · night</p>
+          <p class="entry-note">she shows him a little notebook — "before I'm old." see the sea. dance without music. write a hundred letters. eat mango in the rain. he reads quietly, then takes the pen and adds his OWN line: "Zayn: hear the sea." she stares at it. "you can't." "then I'll feel it." I'm... okay</p>
+          <p class="entry-line">&ldquo;Then I&#x27;ll feel it.&rdquo;</p>
+          <p class="entry-tag">✎ the bucket list begins</p>
+        </article>
+        <article class="entry sticky-blue" id="ep37">
+          <div class="entry-head">
+            <span class="entry-num">#37</span>
+            <span class="entry-emoji">🎶</span>
+            <h3 class="entry-title">The Music Box</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · night</p>
+          <p class="entry-note">he's been building something for weeks — gears from five dead watches, a brass comb, a tiny hand-punched cylinder. winds it, sets it in her hands. her mother's lullaby, playing in small bright notes SHE can hear and HE cannot. she weeps. he puts his hand over hers on the box and just feels it hum. I need a tissue. several tissues.</p>
+          <p class="entry-line">&ldquo;I can&#x27;t hear it. But I can feel you hearing it.&rdquo;</p>
+          <p class="entry-tag">✎ he MADE this for her. with his hands.</p>
+        </article>
+        <article class="entry sticky-pink" id="ep38">
+          <div class="entry-head">
+            <span class="entry-num">#38</span>
+            <span class="entry-emoji">🌫️</span>
+            <h3 class="entry-title">Fog</h3>
+          </div>
+          <p class="entry-place">📍 The park · dawn fog</p>
+          <p class="entry-note">the fog is so thick they lose each other between two benches. he's spinning, shouting her name into a world he cannot hear at all. panic rising fast. then — a hand closes on his wrist. three taps. I'm here. he breathes out like he just came up for air. the tap sign SAVING them already</p>
+          <p class="entry-line">&ldquo;Tap. Tap. Tap.&rdquo;</p>
+          <p class="entry-tag">✎ scary for a second, then relief</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep39">
+          <div class="entry-head">
+            <span class="entry-num">#39</span>
+            <span class="entry-emoji">📉</span>
+            <h3 class="entry-title">The Second Hearing Test</h3>
+          </div>
+          <p class="entry-place">📍 Ear clinic · afternoon</p>
+          <p class="entry-note">alone, he reads the second graph. the right ear's going faster than they thought. "six months, perhaps. maybe a year." he folds the report tiny and slides it inside the grandfather's watch case. tells NOBODY. shows up at the bench that evening with a smile so carefully built it almost fools her. almost.</p>
+          <p class="entry-line">&ldquo;Six months, perhaps.&rdquo;</p>
+          <p class="entry-tag">✎ his secret, quietly carried</p>
+        </article>
+        <article class="entry sticky-blue" id="ep40">
+          <div class="entry-head">
+            <span class="entry-num">#40</span>
+            <span class="entry-emoji">🤐</span>
+            <h3 class="entry-title">Two Secrets</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">"are you happy?" she asks, watching his lips. "yes," he says — and means it. "are you?" "yes," she says — and means it too. each of them hiding something heavy behind their back. at 6:40, in his pocket, the silent watch gives one soft tick. neither one notices. end of chapter and my heart hurts a little already</p>
+          <p class="entry-line">&ldquo;I&#x27;m happy.&rdquo; (Both true. Neither whole.)</p>
+          <p class="entry-tag">✎ end of ch.4 — two secrets, both getting closer to the surface</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch5">
+      <div class="chapter-divider">
+        <div class="tab">ch. 05</div>
+        <h2 class="chapter-title">Cracks</h2>
+        <p class="chapter-meta">EP 41–50 &nbsp;·&nbsp; Spring</p>
+        <p class="chapter-note">okay this is where it gets HARD. secrets come out, she faints in the middle of a market (I gasped), a real fight — but also she finally says yes to the surgery, and a watch finally gets fixed?? so many ups and downs</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-pink" id="ep41">
+          <div class="entry-head">
+            <span class="entry-num">#41</span>
+            <span class="entry-emoji">🌸</span>
+            <h3 class="entry-title">Blossom</h3>
+          </div>
+          <p class="entry-place">📍 The park · spring morning</p>
+          <p class="entry-note">the old tree over the bench just explodes in blossom. petals falling on her hair, his shoulders, the letters under the slat. he's quietly planning a trip to the sea as a gift for her. she's quietly planning something too — an appointment she hasn't told him about. spring has never looked this pretty or this short-lived 🥀</p>
+          <p class="entry-line">&ldquo;Look up.&rdquo;</p>
+          <p class="entry-tag">✎ beautiful AND a little scary at once</p>
+        </article>
+        <article class="entry sticky-blue" id="ep42">
+          <div class="entry-head">
+            <span class="entry-num">#42</span>
+            <span class="entry-emoji">😨</span>
+            <h3 class="entry-title">The Market Faint</h3>
+          </div>
+          <p class="entry-place">📍 Busy market · noon</p>
+          <p class="entry-note">apples, shouting, heat. she reaches for a fruit and the world just tilts. she falls. the crowd closes in — he can't hear ANY of it, just reads pure panic off their faces. he lifts her and RUNS. apples rolling across the street. "please," to nobody, to everybody. I gasped out loud reading this one</p>
+          <p class="entry-line">&ldquo;Please. Please. Please.&rdquo;</p>
+          <p class="entry-tag">✎ 😰 scary turn</p>
+        </article>
+        <article class="entry sticky-pink" id="ep43">
+          <div class="entry-head">
+            <span class="entry-num">#43</span>
+            <span class="entry-emoji">🏥</span>
+            <h3 class="entry-title">The Hospital Hallway</h3>
+          </div>
+          <p class="entry-place">📍 Hospital · evening</p>
+          <p class="entry-note">Khala meets him in the corridor, face grey. tells him everything — surgery, fifty-fifty odds, and a girl who won't say yes. he listens, reading every word off her lips. "and you?" she asks. "what are you hiding?" he looks at the floor. they both already know the answer.</p>
+          <p class="entry-line">&ldquo;Fifty-fifty.&rdquo;</p>
+          <p class="entry-tag">✎ the truth is catching up to both of them</p>
+        </article>
+        <article class="entry sticky-blue" id="ep44">
+          <div class="entry-head">
+            <span class="entry-num">#44</span>
+            <span class="entry-emoji">🪞</span>
+            <h3 class="entry-title">Mirror</h3>
+          </div>
+          <p class="entry-place">📍 Her doorstep · night</p>
+          <p class="entry-note">"you hid your heart from me!" "and you hid your ears from me!" they both go quiet because they're both RIGHT. the most honest fight they'll ever have, and the worst one. she shuts the door. he stands outside with his hand lifted, not knocking. his reflection in the dark window stares back. so does hers, somewhere inside.</p>
+          <p class="entry-line">&ldquo;You hid it.&rdquo; / &ldquo;So did you.&rdquo;</p>
+          <p class="entry-tag">✎ 💥 the fight. ouch.</p>
+        </article>
+        <article class="entry sticky-pink" id="ep45">
+          <div class="entry-head">
+            <span class="entry-num">#45</span>
+            <span class="entry-emoji">🪑</span>
+            <h3 class="entry-title">The Empty Bench</h3>
+          </div>
+          <p class="entry-place">📍 The bench · three dusks in a row</p>
+          <p class="entry-note">she doesn't come. he sits at 6:40 the first day, the second, the third. writes a letter each night, slides it under the slat anyway. they just sit there unread, collecting petals. the tea stall closes up. the lamp comes on. the bench has never looked this big and this empty.</p>
+          <p class="entry-line">&ldquo;I&#x27;ll wait.&rdquo;</p>
+          <p class="entry-tag">✎ waiting, and it's so sad</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep46">
+          <div class="entry-head">
+            <span class="entry-num">#46</span>
+            <span class="entry-emoji">🍱</span>
+            <h3 class="entry-title">Khala&#x27;s Visit</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · afternoon</p>
+          <p class="entry-note">Khala climbs the stairs with a lunch box, sets it on his counter. "she's not afraid of dying, beta. she's afraid you'll be the one left behind." quiet for a second, then: "I'd rather she was loved for one year than safe for fifty." leaves the lunch box AND the sentence. he eats nothing and thinks about both for a long time.</p>
+          <p class="entry-line">&ldquo;Better loved for one year than safe for fifty.&rdquo;</p>
+          <p class="entry-tag">✎ Khala really said that and walked away</p>
+        </article>
+        <article class="entry sticky-blue" id="ep47">
+          <div class="entry-head">
+            <span class="entry-num">#47</span>
+            <span class="entry-emoji">🌧️</span>
+            <h3 class="entry-title">The Window</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · rainy evening</p>
+          <p class="entry-note">rain again. he looks up and she's just THERE, outside the window, soaked, palm flat on the glass. taps three times. I'm here. through the wet window he reads her lips: "I'm sorry." he's across the room and through the door before she even finishes the second word 🏃</p>
+          <p class="entry-line">&ldquo;I&#x27;m sorry.&rdquo; (through glass)</p>
+          <p class="entry-tag">✎ she came back!!</p>
+        </article>
+        <article class="entry sticky-pink" id="ep48">
+          <div class="entry-head">
+            <span class="entry-num">#48</span>
+            <span class="entry-emoji">🤝</span>
+            <h3 class="entry-title">No More Secrets</h3>
+          </div>
+          <p class="entry-place">📍 The bench · rain, then clearing</p>
+          <p class="entry-note">side by side under one umbrella. he hands over the folded hearing-test paper from the watch case. she hands over the pill bottle from her bag. each reads the other's truth. then they swap back and just hold hands over both of them. "deal?" "deal." FINALLY. no more hiding.</p>
+          <p class="entry-line">&ldquo;From now on, nothing hidden.&rdquo;</p>
+          <p class="entry-tag">✎ 🤲 honesty, finally</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep49">
+          <div class="entry-head">
+            <span class="entry-num">#49</span>
+            <span class="entry-emoji">🌊</span>
+            <h3 class="entry-title">First, the Sea</h3>
+          </div>
+          <p class="entry-place">📍 Dr. Meher&#x27;s office · morning</p>
+          <p class="entry-note">with Zayn right beside her, Vafiya finally says yes to the surgery. "not now," she adds, "after summer. first, I have a sea to see." Dr. Meher looks between them and nods slowly. "then let's give your heart a summer worth the risk." okay I love this doctor</p>
+          <p class="entry-line">&ldquo;First, the sea.&rdquo;</p>
+          <p class="entry-tag">✎ she said yes!! (on her terms)</p>
+        </article>
+        <article class="entry sticky-blue" id="ep50">
+          <div class="entry-head">
+            <span class="entry-num">#50</span>
+            <span class="entry-emoji">⏰</span>
+            <h3 class="entry-title">Fixed</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop · night</p>
+          <p class="entry-note">HALFWAY POINT!! he finally opens his grandfather's watch. the fault is tiny — one gear a tiny bit out of place. he pushes it a tiny bit. the watch starts ticking, lands right on 6:40, exactly the hour on its face. Vafiya was right. it wasn't broken. it was WAITING. he closes the case, hears nothing, but feels it in his hand like a pulse. end of chapter and I'm emotional</p>
+          <p class="entry-line">&ldquo;It wasn&#x27;t broken. It was waiting.&rdquo;</p>
+          <p class="entry-tag">✎ ⭐ end of ch.5 — the halfway point, and the answer to ep.12</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch6">
+      <div class="chapter-divider">
+        <div class="tab">ch. 06</div>
+        <h2 class="chapter-title">The Sea</h2>
+        <p class="chapter-meta">EP 51–60 &nbsp;·&nbsp; Summer</p>
+        <p class="chapter-note">THE SEA TRIP!! this whole chapter is a gift honestly. seeing the ocean for the first time, dancing without music, a PROPOSAL on a beach — and then one quiet painful moment on the train home that reminds you this isn't just a happy holiday 🌅</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-blue" id="ep51">
+          <div class="entry-head">
+            <span class="entry-num">#51</span>
+            <span class="entry-emoji">🚂</span>
+            <h3 class="entry-title">Night Train</h3>
+          </div>
+          <p class="entry-place">📍 Overnight train · dark window</p>
+          <p class="entry-note">she falls asleep on his shoulder somewhere past midnight, countryside sliding by in silver. he puts two fingers on her wrist and counts her heartbeats — slow, steady, hers — and decides THIS is the sound he'll keep, no matter what else he loses. my heart hurts, and hers is the weak one</p>
+          <p class="entry-line">&ldquo;One. Two. Three. Four.&rdquo;</p>
+          <p class="entry-tag">✎ counting what matters</p>
+        </article>
+        <article class="entry sticky-pink" id="ep52">
+          <div class="entry-head">
+            <span class="entry-num">#52</span>
+            <span class="entry-emoji">🌅</span>
+            <h3 class="entry-title">The First Sight of the Sea</h3>
+          </div>
+          <p class="entry-place">📍 Coastal town · dawn</p>
+          <p class="entry-note">they run the last stretch barefoot and there it is — the sea, a whole grey-blue breathing creature, bigger than anything Vafiya's ever imagined. she just STOPS. says nothing. tears running, not wiping them. he watches HER face, not the water, and decides it's the best thing he's ever seen. okay I'm crying too now</p>
+          <p class="entry-line">&ldquo;Ammi. I got here.&rdquo;</p>
+          <p class="entry-tag">✎ 🌊 bucket list item #1!!</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep53">
+          <div class="entry-head">
+            <span class="entry-num">#53</span>
+            <span class="entry-emoji">🎐</span>
+            <h3 class="entry-title">What the Sea Sounds Like</h3>
+          </div>
+          <p class="entry-place">📍 Wooden pier · morning</p>
+          <p class="entry-note">"I can't hear it," he says gently. she thinks, then lays him flat on the pier. the boards hum. each wave arrives through the wood and into his ribs — a slow boom, a hiss, a long pause. "that," she whispers, "that's what it sounds like." he closes his eyes. he HEARS the sea. not with ears. with her.</p>
+          <p class="entry-line">&ldquo;Press your ear to the wood.&rdquo;</p>
+          <p class="entry-tag">✎ ⭐ one of THE moments of the whole story</p>
+        </article>
+        <article class="entry sticky-blue" id="ep54">
+          <div class="entry-head">
+            <span class="entry-num">#54</span>
+            <span class="entry-emoji">💃</span>
+            <h3 class="entry-title">Dance Without Music</h3>
+          </div>
+          <p class="entry-place">📍 The beach · sunset</p>
+          <p class="entry-note">bucket list item #4. no radio, no song, nothing. she takes his hand, puts it over her heart. "there's your music." they sway on wet sand while the tide erases their footprints. he feels every beat in his palm, she follows his breathing. only dance either of them will ever need, honestly.</p>
+          <p class="entry-line">&ldquo;Dance to this.&rdquo;</p>
+          <p class="entry-tag">✎ 🫀 their own private music</p>
+        </article>
+        <article class="entry sticky-pink" id="ep55">
+          <div class="entry-head">
+            <span class="entry-num">#55</span>
+            <span class="entry-emoji">🐚</span>
+            <h3 class="entry-title">A Shell for His Birthday</h3>
+          </div>
+          <p class="entry-place">📍 The beach · evening</p>
+          <p class="entry-note">it's his birthday! she hands him a spiral shell wrapped in a corner of the blue scarf. "hold it to your ear." he does out of habit, shakes his head with a smile. "hold it to your heart," she says. "when I'm not near, it'll remember the sea for you." the joke AND the real thing hiding under the joke, both at once</p>
+          <p class="entry-line">&ldquo;When I&#x27;m not near, it&#x27;ll remember the sea for you.&rdquo;</p>
+          <p class="entry-tag">✎ happy birthday, and also. oh.</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep56">
+          <div class="entry-head">
+            <span class="entry-num">#56</span>
+            <span class="entry-emoji">⛈️</span>
+            <h3 class="entry-title">Storm Night</h3>
+          </div>
+          <p class="entry-place">📍 Seaside guesthouse · night</p>
+          <p class="entry-note">thunder shakes the shutters. she hears it, he feels it through the glass. they sit on the floor with the scarf over both heads like kids. "you be my ears." "and you be my heart." in the dark she writes her first open-when letter while he sleeps. it has the number 1 in the corner. ...the number 1. okay</p>
+          <p class="entry-line">&ldquo;I&#x27;ll be your ears.&rdquo; / &ldquo;I&#x27;ll be your heart.&rdquo;</p>
+          <p class="entry-tag">✎ 🔑 the open-when letters START here</p>
+        </article>
+        <article class="entry sticky-blue" id="ep57">
+          <div class="entry-head">
+            <span class="entry-num">#57</span>
+            <span class="entry-emoji">📸</span>
+            <h3 class="entry-title">Four Frames</h3>
+          </div>
+          <p class="entry-place">📍 Seaside photo booth</p>
+          <p class="entry-note">four pictures. first: both laughing. second: he's making a face. third: they look at each other a second too long. fourth: they kiss. the strip comes out damp and warm. she keeps it in the lid of her pill tin, so she'll see it every time she's scared. that detail just destroyed me a little</p>
+          <p class="entry-line">&ldquo;Frame four&#x27;s mine.&rdquo;</p>
+          <p class="entry-tag">✎ a happy picture with two jobs</p>
+        </article>
+        <article class="entry sticky-pink" id="ep58">
+          <div class="entry-head">
+            <span class="entry-num">#58</span>
+            <span class="entry-emoji">💍</span>
+            <h3 class="entry-title">A Ring of Gears</h3>
+          </div>
+          <p class="entry-place">📍 The beach · golden hour</p>
+          <p class="entry-note">he's been carrying it for three weeks in a watch case — a ring made from a single brass gear, filed smooth. kneels in the cold shallows, hands shaking. says the words slowly, because she taught him how to speak so a heart could read them. A PROPOSAL. ON A BEACH. WITH A RING HE MADE HIMSELF. I need a moment</p>
+          <p class="entry-line">&ldquo;I can&#x27;t promise you forever. I can promise you every tick.&rdquo;</p>
+          <p class="entry-tag">✎ 💍💍💍 HE&#x27;S PROPOSING</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep59">
+          <div class="entry-head">
+            <span class="entry-num">#59</span>
+            <span class="entry-emoji">🌇</span>
+            <h3 class="entry-title">Then Give Me the Rest</h3>
+          </div>
+          <p class="entry-place">📍 The beach · sunset</p>
+          <p class="entry-note">"Zayn," she says, "I may not have forever." he holds the gear-ring up against the last light. "then give me the rest." the sea breathes in, breathes out. she holds out her hand. "yes," three times, slowly, so he can read each one. SHE SAID YES I'M SCREAMING</p>
+          <p class="entry-line">&ldquo;Then give me the rest.&rdquo;</p>
+          <p class="entry-tag">✎ ⭐ SHE SAID YES</p>
+        </article>
+        <article class="entry sticky-blue" id="ep60">
+          <div class="entry-head">
+            <span class="entry-num">#60</span>
+            <span class="entry-emoji">🚆</span>
+            <h3 class="entry-title">Going Home</h3>
+          </div>
+          <p class="entry-place">📍 Train · afternoon</p>
+          <p class="entry-note">he's asleep against the window, shell cupped in both hands. she watches him and the pain comes — sharp, quick, under her ribs. she presses her hand flat and doesn't move. when it passes she just looks at his sleeping face and mouths two words he'll never see. end of the happiest chapter, with a quiet little warning at the very end.</p>
+          <p class="entry-line">&ldquo;I&#x27;m sorry. Thank you.&rdquo;</p>
+          <p class="entry-tag">✎ end of ch.6 — a happy chapter, a quiet ache</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch7">
+      <div class="chapter-divider">
+        <div class="tab">ch. 07</div>
+        <h2 class="chapter-title">Monsoon Vows</h2>
+        <p class="chapter-meta">EP 61–70 &nbsp;·&nbsp; Monsoon</p>
+        <p class="chapter-note">THE WEDDING CHAPTER!! henna, a tiny wedding under a blossom tree with the heavy rains arriving right after, their first night together, and then — the surgery. the longest hour of anyone's life. I cried through basically this entire chapter, fair warning 😭</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-pink" id="ep61">
+          <div class="entry-head">
+            <span class="entry-num">#61</span>
+            <span class="entry-emoji">😭</span>
+            <h3 class="entry-title">Khala Cries</h3>
+          </div>
+          <p class="entry-place">📍 Khala Sabina&#x27;s kitchen · evening</p>
+          <p class="entry-note">Vafiya holds up her hand with the gear-ring. Khala DROPS THE LADLE. crying and laughing in the same breath, hugging them both so hard the pot boils over. "before the surgery," Vafiya says. "small. simple. on the bench." Khala wipes her eyes with her scarf (a dupatta). "then we'd better start cooking."</p>
+          <p class="entry-line">&ldquo;Small. Simple. On the bench.&rdquo;</p>
+          <p class="entry-tag">✎ she told Khala!!</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep62">
+          <div class="entry-head">
+            <span class="entry-num">#62</span>
+            <span class="entry-emoji">🎨</span>
+            <h3 class="entry-title">Henna</h3>
+          </div>
+          <p class="entry-place">📍 Khala&#x27;s courtyard · night</p>
+          <p class="entry-note">Khala draws a pattern on her palm, slow and steady. hidden inside the vines, tiny: a Z. "every bride gets one," Khala says. "the groom spends the whole wedding night looking for it." Vafiya smiles, then looks away. "what if he doesn't have a long wedding night?" Khala just presses the cone harder so the line won't smudge. 💔 she didn't answer that</p>
+          <p class="entry-line">&ldquo;Find the Z.&rdquo;</p>
+          <p class="entry-tag">✎ a happy scene with a crack in it</p>
+        </article>
+        <article class="entry sticky-blue" id="ep63">
+          <div class="entry-head">
+            <span class="entry-num">#63</span>
+            <span class="entry-emoji">💐</span>
+            <h3 class="entry-title">Three Times, Slowly</h3>
+          </div>
+          <p class="entry-place">📍 The park, by the bench · evening</p>
+          <p class="entry-note">no hall, no band. just Chacha, Imran, Khala, a few neighbours, paper lanterns under the blossom tree. when she's asked, she turns her face to him and says yes three times, slowly, so he can read every word (qubool hai means &ldquo;I accept&rdquo;). Imran blows his nose like a trumpet. the lamp over the bench turns on by itself. I'M NOT OKAY</p>
+          <p class="entry-line">&ldquo;Qubool hai. Qubool hai. Qubool hai.&rdquo;</p>
+          <p class="entry-tag">✎ 💒 THE WEDDING!!</p>
+        </article>
+        <article class="entry sticky-pink" id="ep64">
+          <div class="entry-head">
+            <span class="entry-num">#64</span>
+            <span class="entry-emoji">🌧️</span>
+            <h3 class="entry-title">Rain Blessing</h3>
+          </div>
+          <p class="entry-place">📍 The park · night</p>
+          <p class="entry-note">right after the ceremony the monsoon (heavy rainy season) just arrives, all at once. nobody runs. Imran dances in the puddles like a crazy person. Chacha holds his palm up to the sky and nods once, like he was expecting this guest. they make paper boats out of the wedding card and race them down the gutter 🥰</p>
+          <p class="entry-line">&ldquo;Even the sky came to the wedding.&rdquo;</p>
+          <p class="entry-tag">✎ pure joy, no notes</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep65">
+          <div class="entry-head">
+            <span class="entry-num">#65</span>
+            <span class="entry-emoji">🏠</span>
+            <h3 class="entry-title">First Night Home</h3>
+          </div>
+          <p class="entry-place">📍 The watch shop, upstairs room · night</p>
+          <p class="entry-note">the shop, with its hundred ticking clocks, is theirs now. she lies with her head on his chest, then moves so his good ear rests against her heart. "listen." he listens, and for a few minutes the only sound in the whole world is the one that actually matters.</p>
+          <p class="entry-line">&ldquo;Listen.&rdquo;</p>
+          <p class="entry-tag">✎ so quiet. so tender.</p>
+        </article>
+        <article class="entry sticky-blue" id="ep66">
+          <div class="entry-head">
+            <span class="entry-num">#66</span>
+            <span class="entry-emoji">🌙</span>
+            <h3 class="entry-title">The Night Before</h3>
+          </div>
+          <p class="entry-place">📍 The upstairs room · night</p>
+          <p class="entry-note">the surgery's at dawn. she sleeps, he can't. writes a letter, tears it up, writes another, tears that up too. writes a third — "if you wake, read this to me. if not, read it to yourself, wherever you are." — and tucks it in the watch case. she's actually awake. neither says a word. she takes his hand and taps three times.</p>
+          <p class="entry-line">&ldquo;Tap. Tap. Tap.&rdquo;</p>
+          <p class="entry-tag">✎ the night before. no words needed.</p>
+        </article>
+        <article class="entry sticky-pink" id="ep67">
+          <div class="entry-head">
+            <span class="entry-num">#67</span>
+            <span class="entry-emoji">🚪</span>
+            <h3 class="entry-title">Gate, 6:40</h3>
+          </div>
+          <p class="entry-place">📍 Hospital gate · dawn</p>
+          <p class="entry-note">Khala straightens her scarf for the fifth time. Imran's jokes land badly and nobody laughs. at the gate Vafiya turns, takes his wrist, taps three times. "see you at 6:40," she says. "tonight." the hospital bed wheels clatter, the doors close, and the corridor suddenly looks SO long.</p>
+          <p class="entry-line">&ldquo;See you at 6:40.&rdquo;</p>
+          <p class="entry-tag">✎ 💔 here we go</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep68">
+          <div class="entry-head">
+            <span class="entry-num">#68</span>
+            <span class="entry-emoji">⏳</span>
+            <h3 class="entry-title">The Longest Hour</h3>
+          </div>
+          <p class="entry-place">📍 Waiting room · day</p>
+          <p class="entry-note">he can't hear the announcements. Imran signs them to him with clumsy hands. he holds the grandfather's watch against his jaw and counts ticks, sixty at a time, hour after hour. at minute 217 he realizes he's been praying this whole time without noticing. I'm so nervous reading this</p>
+          <p class="entry-line">&ldquo;One hundred and sixty-one. One hundred and sixty-two.&rdquo;</p>
+          <p class="entry-tag">✎ the waiting room chapter. brutal.</p>
+        </article>
+        <article class="entry sticky-blue" id="ep69">
+          <div class="entry-head">
+            <span class="entry-num">#69</span>
+            <span class="entry-emoji">😌</span>
+            <h3 class="entry-title">Dr. Meher&#x27;s Smile</h3>
+          </div>
+          <p class="entry-place">📍 Waiting room · evening</p>
+          <p class="entry-note">the door opens. Dr. Meher takes off her mask. doesn't say anything at first. just SMILES, and that's enough. his knees fold, Imran catches him. Khala sits right down on the floor, right there, thanking God in a language with no actual words. okay I'm sobbing</p>
+          <p class="entry-line">&ldquo;She&#x27;s asleep. It went well.&rdquo;</p>
+          <p class="entry-tag">✎ IT WENT WELL. she&#x27;s okay.</p>
+        </article>
+        <article class="entry sticky-pink" id="ep70">
+          <div class="entry-head">
+            <span class="entry-num">#70</span>
+            <span class="entry-emoji">🩷</span>
+            <h3 class="entry-title">&quot;Did You Hear Me?&quot;</h3>
+          </div>
+          <p class="entry-place">📍 Hospital room · night</p>
+          <p class="entry-note">she opens her eyes. first thing she sees is his face, pale with fear. she smiles, mouths one word slowly. he reads it. "Zayn." he's already crying. "did you hear me?" she whispers. he laughs through tears. "I read you." the clock on the wall says 6:40. of course it does. end of chapter, and I'm crying so hard</p>
+          <p class="entry-line">&ldquo;Did you hear me?&rdquo; / &ldquo;I read you.&rdquo;</p>
+          <p class="entry-tag">✎ end of ch.7 — she&#x27;s okay, he&#x27;s okay, 6:40 again</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch8">
+      <div class="chapter-divider">
+        <div class="tab">ch. 08</div>
+        <h2 class="chapter-title">Borrowed Time</h2>
+        <p class="chapter-meta">EP 71–80 &nbsp;·&nbsp; Monsoon to Autumn</p>
+        <p class="chapter-note">recovery, slow mornings, he finally plays guitar again, loses his LAST bit of hearing completely, then they sell her mum's gold for his implant and he hears her voice for the very first time. and then. a cough. a spot of red. no. 😶</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-yellow" id="ep71">
+          <div class="entry-head">
+            <span class="entry-num">#71</span>
+            <span class="entry-emoji">☀️</span>
+            <h3 class="entry-title">Slow Mornings</h3>
+          </div>
+          <p class="entry-place">📍 The shop balcony · morning</p>
+          <p class="entry-note">recovery days. she sits with tea and a blanket while he fixes watches below. pigeons on the railing. she counts the days — and for the first time in her whole life, doesn't count them as a debt she owes. "look," she says. "a day with nothing in it but us." I love this so much</p>
+          <p class="entry-line">&ldquo;A day with nothing in it but us.&rdquo;</p>
+          <p class="entry-tag">✎ finally, rest</p>
+        </article>
+        <article class="entry sticky-blue" id="ep72">
+          <div class="entry-head">
+            <span class="entry-num">#72</span>
+            <span class="entry-emoji">🎸</span>
+            <h3 class="entry-title">The Guitar, At Last</h3>
+          </div>
+          <p class="entry-place">📍 The attic · afternoon</p>
+          <p class="entry-note">she finds him in the attic, very still, the sheet on the floor. he lays a palm flat on the guitar body, plucks one string, feels it — a slow shiver through wood into his wrist. one chord. then another. she sits on the stairs and records the melody on her phone, because a song is also a letter. THIS MADE ME CRY</p>
+          <p class="entry-line">&ldquo;I can&#x27;t hear it. I can feel it. That&#x27;s enough.&rdquo;</p>
+          <p class="entry-tag">✎ he&#x27;s playing again!!</p>
+        </article>
+        <article class="entry sticky-pink" id="ep73">
+          <div class="entry-head">
+            <span class="entry-num">#73</span>
+            <span class="entry-emoji">🔇</span>
+            <h3 class="entry-title">The Day the Sound Left</h3>
+          </div>
+          <p class="entry-place">📍 Watch shop → park · morning</p>
+          <p class="entry-note">a normal morning. the kettle's whistling but he doesn't know. the shop bell rings and rings and rings. the last of his hearing just slips away like a tide going out. the whole world goes silent. he stumbles to the bench, sits in total silence watching leaves fall without a sound. then he sees HER running toward him, mouth shaping his name over and over.</p>
+          <p class="entry-line">&ldquo;I can&#x27;t hear you.&rdquo; / &ldquo;I know. I know.&rdquo;</p>
+          <p class="entry-tag">✎ 😢 the hearing is completely gone now</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep74">
+          <div class="entry-head">
+            <span class="entry-num">#74</span>
+            <span class="entry-emoji">🤟</span>
+            <h3 class="entry-title">Hands That Talk</h3>
+          </div>
+          <p class="entry-place">📍 The shop · evening</p>
+          <p class="entry-note">they learn sign language together from a battered book and a video, face to face, making terrible shapes and giggling about it. she learns tea, home, heart. he learns her name — a flat hand over the heart, a small twist. their hands are clumsy. they've never been more fluent with each other 🥹</p>
+          <p class="entry-line">&ldquo;Again. Slower. My hands are shy.&rdquo;</p>
+          <p class="entry-tag">✎ learning a new language, together</p>
+        </article>
+        <article class="entry sticky-blue" id="ep75">
+          <div class="entry-head">
+            <span class="entry-num">#75</span>
+            <span class="entry-emoji">📋</span>
+            <h3 class="entry-title">The Offer</h3>
+          </div>
+          <p class="entry-place">📍 Dr. Meher&#x27;s office · afternoon</p>
+          <p class="entry-note">the doctor sets a leaflet down — cochlear implant (a small device that can give sound to a deaf ear). not perfect, but could give him sound again. the cost is more than the shop's made in five years. he pushes it back. "no. I won't take your savings." she doesn't argue. just slides the leaflet a little closer again.</p>
+          <p class="entry-line">&ldquo;It&#x27;s not a luxury. It&#x27;s a door.&rdquo;</p>
+          <p class="entry-tag">✎ a door he&#x27;s too proud to open yet</p>
+        </article>
+        <article class="entry sticky-pink" id="ep76">
+          <div class="entry-head">
+            <span class="entry-num">#76</span>
+            <span class="entry-emoji">✨</span>
+            <h3 class="entry-title">Ammi&#x27;s Gold</h3>
+          </div>
+          <p class="entry-place">📍 A jeweller&#x27;s shop · morning</p>
+          <p class="entry-note">while Zayn's at work she takes her mother's gold bangles to the jeweller. Khala stands beside her and says nothing, which is HOW she knows Khala approves. "Ammi would've said the same," she says quietly. "these were always for something that mattered." I'm tearing up at a JEWELLER'S SCENE, this show really got me</p>
+          <p class="entry-line">&ldquo;Ammi&#x27;s gold, for Zayn&#x27;s ears.&rdquo;</p>
+          <p class="entry-tag">✎ she&#x27;s doing this without telling him</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep77">
+          <div class="entry-head">
+            <span class="entry-num">#77</span>
+            <span class="entry-emoji">🔊</span>
+            <h3 class="entry-title">The Switch-On</h3>
+          </div>
+          <p class="entry-place">📍 Ear clinic · morning</p>
+          <p class="entry-note">the ear specialist touches a button. his whole face is a held breath. and then — "hello, Morning." HER VOICE. not a vibration, not a shape on lips — her actual voice, warm, a little cracked, exactly as the world should've kept it. he just sobs. tries to say her name and it comes out as sound. I AM SCREAMING CRYING</p>
+          <p class="entry-line">&ldquo;Hello, Morning.&rdquo;</p>
+          <p class="entry-tag">✎ ⭐⭐⭐ HE HEARS HER VOICE</p>
+        </article>
+        <article class="entry sticky-blue" id="ep78">
+          <div class="entry-head">
+            <span class="entry-num">#78</span>
+            <span class="entry-emoji">🐦</span>
+            <h3 class="entry-title">Birds</h3>
+          </div>
+          <p class="entry-place">📍 The park · dawn</p>
+          <p class="entry-note">he wants to go to the bench before anyone else is up. sits. slowly the park fills with sound — leaves, a distant bus, a kid's laugh, and then THE BIRDS. dozens of them, all singing together. "you told me birds," she says softly, "and it was a lie." he's grinning and crying. "not any more." remember episode 11?? THIS IS THE ANSWER</p>
+          <p class="entry-line">&ldquo;Not any more.&rdquo;</p>
+          <p class="entry-tag">✎ 🔑 ANSWER to ep.11&#x27;s lie</p>
+        </article>
+        <article class="entry sticky-pink" id="ep79">
+          <div class="entry-head">
+            <span class="entry-num">#79</span>
+            <span class="entry-emoji">🎶</span>
+            <h3 class="entry-title">The Lullaby, Finally</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">at 6:40 she hums the lullaby — the bus one, the one he's only ever FELT before. now he hears every note, the soft cracks, the breath between phrases. knows it at last — the tune he'd known from somewhere he'd never been. it was always hers. it was always waiting for him. I can't even type right now</p>
+          <p class="entry-line">&ldquo;So that&#x27;s what you sounded like.&rdquo;</p>
+          <p class="entry-tag">✎ 🔑 ANSWER to ep.5&#x27;s bus moment</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep80">
+          <div class="entry-head">
+            <span class="entry-num">#80</span>
+            <span class="entry-emoji">🩸</span>
+            <h3 class="entry-title">Cough</h3>
+          </div>
+          <p class="entry-place">📍 The shop · night</p>
+          <p class="entry-note">a small cough in the dark. she covers her mouth, pulls her hand away — a spot of red on the tissue. folds it quick into her fist. he, who can hear now what he couldn't before, hears the cough and sits up. sees her face. and he knows. the shop's hundred clocks just keep ticking on, like nothing happened. end of chapter and my stomach just dropped</p>
+          <p class="entry-line">&ldquo;It&#x27;s nothing.&rdquo; (It isn&#x27;t.)</p>
+          <p class="entry-tag">✎ end of ch.8 — no. no no no</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch9">
+      <div class="chapter-divider">
+        <div class="tab">ch. 09</div>
+        <h2 class="chapter-title">The Last Season</h2>
+        <p class="chapter-meta">EP 81–90 &nbsp;·&nbsp; Autumn</p>
+        <p class="chapter-note">I'm going to be honest, I need to prepare myself before writing notes for this chapter. intensive care, the truth from Dr. Meher, coming home, a hundred letters to open one at a time, and a final morning that ends this chapter so so gently. have tissues ready. actually have the whole box.</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-blue" id="ep81">
+          <div class="entry-head">
+            <span class="entry-num">#81</span>
+            <span class="entry-emoji">🪟</span>
+            <h3 class="entry-title">Glass</h3>
+          </div>
+          <p class="entry-place">📍 Hospital intensive care · night</p>
+          <p class="entry-note">she sleeps behind a wall of glass, wires, a green line rising and falling. he's not allowed in. lays his palm flat on the pane, taps three times. I'm here. nothing. taps again. on the other side — one finger lifts off the blanket, and taps back. weakly. three times. I CANNOT</p>
+          <p class="entry-line">&ldquo;Tap. Tap. Tap. (From the other side.)&rdquo;</p>
+          <p class="entry-tag">✎ the tap-code through GLASS</p>
+        </article>
+        <article class="entry sticky-pink" id="ep82">
+          <div class="entry-head">
+            <span class="entry-num">#82</span>
+            <span class="entry-emoji">🌳</span>
+            <h3 class="entry-title">What Dr. Meher Couldn&#x27;t Say</h3>
+          </div>
+          <p class="entry-place">📍 Hospital garden · morning</p>
+          <p class="entry-note">the doctor sits beside him on a different bench, speaks gently. the surgery bought a year, maybe a bit more than anyone dared hope. now her heart's failing again, and a transplant isn't possible. "weeks. perhaps months." he hears every word now. for once, he wishes he couldn't.</p>
+          <p class="entry-line">&ldquo;Weeks. Perhaps months.&rdquo;</p>
+          <p class="entry-tag">✎ the hardest news, heard clearly for once</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep83">
+          <div class="entry-head">
+            <span class="entry-num">#83</span>
+            <span class="entry-emoji">🏡</span>
+            <h3 class="entry-title">Coming Home</h3>
+          </div>
+          <p class="entry-place">📍 Their room above the shop · afternoon</p>
+          <p class="entry-note">she asks to go home, and they take her home. the shop clocks greet her with a hundred small ticks. Khala moves in. Imran brings a broken heater and a cake that works perfectly. she looks around at everything she loves and says, "take me to the bench tomorrow."</p>
+          <p class="entry-line">&ldquo;Take me to the bench tomorrow.&rdquo;</p>
+          <p class="entry-tag">✎ she wants to go back to where it started</p>
+        </article>
+        <article class="entry sticky-blue" id="ep84">
+          <div class="entry-head">
+            <span class="entry-num">#84</span>
+            <span class="entry-emoji">🍁</span>
+            <h3 class="entry-title">The Wheelchair Path</h3>
+          </div>
+          <p class="entry-place">📍 The park · autumn dusk</p>
+          <p class="entry-note">he pushes her slowly down the path, golden leaves swirling around the wheels. exactly one year since the first letter. she holds the blue scarf in her lap, wound around one hand like a rope she doesn't want to let go of. "slower," she says. "I want to see everything twice." I want to see everything twice too now, honestly</p>
+          <p class="entry-line">&ldquo;Slower. I want to see everything twice.&rdquo;</p>
+          <p class="entry-tag">✎ a full year, and still slower please</p>
+        </article>
+        <article class="entry sticky-pink" id="ep85">
+          <div class="entry-head">
+            <span class="entry-num">#85</span>
+            <span class="entry-emoji">📬</span>
+            <h3 class="entry-title">The Slat</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">she asks him to open the slat. behind the petals and dust, a tin box — every letter, dry now, folded small. "dear Ammi, the bench kept your seat warm." "dear stranger, your Ammi is listening." they read the first lines to each other and laugh at how formal they used to be. then neither one laughs anymore.</p>
+          <p class="entry-line">&ldquo;We were so shy.&rdquo; / &ldquo;We were so brave.&rdquo;</p>
+          <p class="entry-tag">✎ reading their own beginning, together</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep86">
+          <div class="entry-head">
+            <span class="entry-num">#86</span>
+            <span class="entry-emoji">💯</span>
+            <h3 class="entry-title">One Hundred Letters</h3>
+          </div>
+          <p class="entry-place">📍 The shop · night</p>
+          <p class="entry-note">she nods toward a drawer. inside, a tin bound with the blue ribbon — letters, a lot of them, each numbered, some marked "open when..." "one hundred," she says. "one for every day after. don't read ahead." he starts to say no. she puts a finger on his lips. "promise." I'm sobbing just typing this</p>
+          <p class="entry-line">&ldquo;One hundred days. One letter each. Don&#x27;t read ahead.&rdquo;</p>
+          <p class="entry-tag">✎ 🔑 the hundred letters begin here</p>
+        </article>
+        <article class="entry sticky-blue" id="ep87">
+          <div class="entry-head">
+            <span class="entry-num">#87</span>
+            <span class="entry-emoji">📹</span>
+            <h3 class="entry-title">Imran&#x27;s Camera</h3>
+          </div>
+          <p class="entry-place">📍 The shop · afternoon</p>
+          <p class="entry-note">Imran props his phone against a clock. "say something to future-Zayn," awkwardly serious for once. she faces the lens. "future-Zayn, eat something. open the shop. laugh at Imran's jokes even when they're bad." Imran sniffles. "they're never bad." "they are," they BOTH say, and the video just keeps running.</p>
+          <p class="entry-line">&ldquo;Laugh at Imran&#x27;s jokes even when they&#x27;re bad.&rdquo;</p>
+          <p class="entry-tag">✎ making them laugh one more time</p>
+        </article>
+        <article class="entry sticky-pink" id="ep88">
+          <div class="entry-head">
+            <span class="entry-num">#88</span>
+            <span class="entry-emoji">🎤</span>
+            <h3 class="entry-title">The Last Lullaby</h3>
+          </div>
+          <p class="entry-place">📍 Their room · evening</p>
+          <p class="entry-note">she asks him to record her. sings the lullaby in full for the first time since her mother died — thin, trembling, perfect. every note goes into the old recorder. he doesn't cry until she finishes. then they both do, and neither one pretends they're not.</p>
+          <p class="entry-line">&ldquo;Keep this one.&rdquo;</p>
+          <p class="entry-tag">✎ recording her voice, on purpose, for after</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep89">
+          <div class="entry-head">
+            <span class="entry-num">#89</span>
+            <span class="entry-emoji">🫖</span>
+            <h3 class="entry-title">Tea on the Bench</h3>
+          </div>
+          <p class="entry-place">📍 The park · dusk</p>
+          <p class="entry-note">everyone comes. Chacha with a steaming kettle, Imran with biscuits, Khala with a shawl, even Dr. Meher out of uniform. they crowd around the bench in golden light for one photograph — Vafiya in the middle, scarf tied around her and Zayn together. nobody says what this is. everybody knows.</p>
+          <p class="entry-line">&ldquo;Everybody say... chai!&rdquo;</p>
+          <p class="entry-tag">✎ one last photo with everyone</p>
+        </article>
+        <article class="entry sticky-blue" id="ep90">
+          <div class="entry-head">
+            <span class="entry-num">#90</span>
+            <span class="entry-emoji">🌄</span>
+            <h3 class="entry-title">6:40</h3>
+          </div>
+          <p class="entry-place">📍 Their room · dawn</p>
+          <p class="entry-note">"tell me what your morning sounds like," she whispers. he listens a long time. "you," he says. "breathing." she smiles. her breathing slows. the pocket watch on the nightstand ticks. he keeps counting, past the point of counting. light comes up. the clock says 6:40. a hundred clocks in that shop, and none of them loud enough. end of chapter. I'm not okay.</p>
+          <p class="entry-line">&ldquo;You. Breathing.&rdquo;</p>
+          <p class="entry-tag">✎ end of ch.9 — I can&#x27;t write anything else here</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch10">
+      <div class="chapter-divider">
+        <div class="tab">ch. 10</div>
+        <h2 class="chapter-title">Letter One Hundred</h2>
+        <p class="chapter-meta">EP 91–100 &nbsp;·&nbsp; Winter and after</p>
+        <p class="chapter-note">this is the one. the hundred letters, sadness, a little at a time, the sea again alone, and a bench with an empty seat that doesn't stay empty forever. I won't pretend I have jokes for all of this chapter — some of it I just want to sit with quietly.</p>
+      </div>
+      <div class="entry-grid">
+        
+        <article class="entry sticky-blue" id="ep91">
+          <div class="entry-head">
+            <span class="entry-num">#91</span>
+            <span class="entry-emoji">🔕</span>
+            <h3 class="entry-title">Silence, By Choice</h3>
+          </div>
+          <p class="entry-place">📍 The shop · day</p>
+          <p class="entry-note">he takes the hearing device off his ear, sets it on the counter. every sound drops away — the clocks, the traffic, the rain. for the first time, the silence is his choice, and it's merciful. he stops every clock in the shop, one by one, until the last tick is gone.</p>
+          <p class="entry-line">&ldquo;I don&#x27;t want to hear a world without her.&rdquo;</p>
+          <p class="entry-tag">✎ he chose the quiet</p>
+        </article>
+        <article class="entry sticky-pink" id="ep92">
+          <div class="entry-head">
+            <span class="entry-num">#92</span>
+            <span class="entry-emoji">🌧️</span>
+            <h3 class="entry-title">The Blue Scarf</h3>
+          </div>
+          <p class="entry-place">📍 The cemetery · rain</p>
+          <p class="entry-note">rain without wind. Imran holds him upright. Khala says something to the earth nobody else hears. he lays the blue scarf over the stone, takes his hand away slowly. taps the stone three times. I'm here. the rain taps back.</p>
+          <p class="entry-line">&ldquo;Tap. Tap. Tap.&rdquo;</p>
+          <p class="entry-tag">✎ the scarf, given back to where it belongs</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep93">
+          <div class="entry-head">
+            <span class="entry-num">#93</span>
+            <span class="entry-emoji">📨</span>
+            <h3 class="entry-title">Letter One</h3>
+          </div>
+          <p class="entry-place">📍 The shop · dawn</p>
+          <p class="entry-note">he wakes at dawn, a morning without her, and finds the tin on the nightstand. letter 1. he opens it. "wake up, Morning. the birds are waiting. they don't know I'm gone, so don't tell them yet." he laughs, he sobs, he puts the hearing device back on, and in the open window the birds are exactly where she said they'd be.</p>
+          <p class="entry-line">&ldquo;Wake up, Morning.&rdquo;</p>
+          <p class="entry-tag">✎ she planned this. for him. in advance.</p>
+        </article>
+        <article class="entry sticky-blue" id="ep94">
+          <div class="entry-head">
+            <span class="entry-num">#94</span>
+            <span class="entry-emoji">📅</span>
+            <h3 class="entry-title">A Letter a Day</h3>
+          </div>
+          <p class="entry-place">📍 The shop and the town · montage</p>
+          <p class="entry-note">one letter each morning. letter 7: eat something warm. letter 14: open the shop, people still need time. letter 22: go annoy Imran. letter 30: laugh at something, anything. he opens the shop. he eats. he laughs, badly, then better. the whole town watches a boy pull himself back up, one small instruction at a time.</p>
+          <p class="entry-line">&ldquo;Letter 30: Laugh at something. Anything.&rdquo;</p>
+          <p class="entry-tag">✎ she&#x27;s still taking care of him</p>
+        </article>
+        <article class="entry sticky-pink" id="ep95">
+          <div class="entry-head">
+            <span class="entry-num">#95</span>
+            <span class="entry-emoji">🍂</span>
+            <h3 class="entry-title">The Empty Seat</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk</p>
+          <p class="entry-note">he sits at the left end, like always, leaving the right end empty. a leaf lands there and, a moment later, the wind lifts it away again. he doesn't look away from it. at 6:40 a distant radio hums the first four notes of the lullaby. he sits very still. then he smiles.</p>
+          <p class="entry-line">&ldquo;I kept your seat warm.&rdquo;</p>
+          <p class="entry-tag">✎ 🔑 ANSWER to ep.3&#x27;s very first line</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep96">
+          <div class="entry-head">
+            <span class="entry-num">#96</span>
+            <span class="entry-emoji">🌊</span>
+            <h3 class="entry-title">The Sea, Again</h3>
+          </div>
+          <p class="entry-place">📍 The beach · dawn</p>
+          <p class="entry-note">letter 50: "open at the sea." he takes the night train alone. at the shore he stands at the edge, shell in his pocket, hearing device on, and listens to the sea for the first time in his life. not through boards, not through bone. just straight sound. he says her name into it. the wave answers.</p>
+          <p class="entry-line">&ldquo;Vafiya... I can hear it.&rdquo;</p>
+          <p class="entry-tag">✎ hearing the sea on his own, finally</p>
+        </article>
+        <article class="entry sticky-blue" id="ep97">
+          <div class="entry-head">
+            <span class="entry-num">#97</span>
+            <span class="entry-emoji">🍽️</span>
+            <h3 class="entry-title">Khala&#x27;s Kitchen</h3>
+          </div>
+          <p class="entry-place">📍 Khala Sabina&#x27;s kitchen · evening</p>
+          <p class="entry-note">she cooks Vafiya's favourite dish, sets three plates out of habit, then two. they eat in silence, then in stories. Khala tells him about the day she first saw Vafiya smile again — the week of the first reply under the slat. "she lived a lifetime in one year," she says. "you gave her that."</p>
+          <p class="entry-line">&ldquo;She lived a lifetime in one year.&rdquo;</p>
+          <p class="entry-tag">✎ Khala&#x27;s gift to him: the whole picture</p>
+        </article>
+        <article class="entry sticky-pink" id="ep98">
+          <div class="entry-head">
+            <span class="entry-num">#98</span>
+            <span class="entry-emoji">🟡</span>
+            <h3 class="entry-title">Noor</h3>
+          </div>
+          <p class="entry-place">📍 The bench · afternoon</p>
+          <p class="entry-note">a small girl in a yellow raincoat sits at the bench and finds the loose slat. "what's this?" "a mailbox." "for who?" "for anyone you miss." she thinks for a while, borrows his pen, writes a short letter to her father. he tapes a little sign to the bench: Mailbox for Missing People.</p>
+          <p class="entry-line">&ldquo;For anyone you miss.&rdquo;</p>
+          <p class="entry-tag">✎ the bench keeps going. so does the story.</p>
+        </article>
+        <article class="entry sticky-yellow" id="ep99">
+          <div class="entry-head">
+            <span class="entry-num">#99</span>
+            <span class="entry-emoji">✒️</span>
+            <h3 class="entry-title">Day Ninety-Nine</h3>
+          </div>
+          <p class="entry-place">📍 The shop → bench · evening</p>
+          <p class="entry-note">he writes a letter back — the first one in a hundred days. "dear Dusk, I did everything you asked. I opened the shop. I ate warm food. I heard the sea." walks to the bench at 6:40, slips it under the slat. in his pocket, the watch — which hasn't missed a single beat since it was fixed — ticks slowly, evenly, in time with his own heart.</p>
+          <p class="entry-line">&ldquo;Dear Dusk, I did everything you asked.&rdquo;</p>
+          <p class="entry-tag">✎ he&#x27;s writing back now. to her. one day left.</p>
+        </article>
+        <article class="entry sticky-blue" id="ep100">
+          <div class="entry-head">
+            <span class="entry-num">#100</span>
+            <span class="entry-emoji">🕊️</span>
+            <h3 class="entry-title">Letter One Hundred</h3>
+          </div>
+          <p class="entry-place">📍 The bench · dusk (6:40)</p>
+          <p class="entry-note">the last envelope. he sits on the left end, sun low and orange, opens it.<br><br>"dear Morning, if you're reading this, I've kept every promise except one. I couldn't stay. but listen: I loved you in every tick. live loudly. be someone's morning. P.S. look to your left."<br><br>he looks left. a small girl in a yellow raincoat is standing there with a folded letter in her hand. "is this seat taken?" he smiles — a real one, the kind that takes a whole year to build. "no," he says. "it's yours." in his pocket, the watch ticks three times.<br><br>he looks up at the first star. "I'll wait here. every day."<br><br>I don't really have a joke for this one. just — thank you, Vafiya. thank you, Zayn. I kept this seat warm too, reading it. 🕯️</p>
+          <p class="entry-line">&ldquo;P.S. Look to your left.&rdquo;</p>
+          <p class="entry-tag">✎ ⭐ end of chapter 10. end of the story. 🤍</p>
+        </article>
+      </div>
+    </section>
+    <section class="chapter" id="appendix">
+      <div class="chapter-divider">
+        <div class="tab">extra</div>
+        <h2 class="chapter-title">Quick Reference 🔖</h2>
+        <p class="chapter-note">okay so if you're like me and need to see the whole thing laid out — here's every repeated line, every big moment, every sad one, all in one place. you're welcome / I'm sorry 😅</p>
+      </div>
+
+      <div class="ref-block">
+        <h3>🔁 lines that come back (said early, repeated late)</h3>
+        <table class="echo-table"><tr><td>EP 03 — &quot;The bench kept your seat warm.&quot;</td><td class="arrow">➜</td><td>EP 95 — &quot;I kept your seat warm.&quot;</td></tr>
+<tr><td>EP 11 — &quot;Birds.&quot; (a lie)</td><td class="arrow">➜</td><td>EP 78 — &quot;Not any more.&quot; (true)</td></tr>
+<tr><td>EP 12 — &quot;Maybe it&#x27;s waiting.&quot;</td><td class="arrow">➜</td><td>EP 50 — &quot;It wasn&#x27;t broken. It was waiting.&quot;</td></tr>
+<tr><td>EP 25 — Three taps begin</td><td class="arrow">➜</td><td>EP 38, 47, 66, 67, 81, 92 — they come back, again and again</td></tr>
+<tr><td>EP 31 — learning the lullaby by touch</td><td class="arrow">➜</td><td>EP 79 — hearing it at last</td></tr>
+<tr><td>EP 36 — &quot;Zayn: hear the sea.&quot;</td><td class="arrow">➜</td><td>EP 53 (felt it) → EP 96 (heard it, alone)</td></tr>
+<tr><td>EP 40 — the watch ticks once, and no one notices</td><td class="arrow">➜</td><td>EP 100 — it ticks three times, on purpose</td></tr></table>
+      </div>
+
+      <div class="ref-block">
+        <h3>⭐ the emotional peaks</h3>
+        <p class="ref-sub">keep tissues within arm's reach for these</p>
+        <div class="chips"><span class="chip peak">EP 19</span> <span class="chip peak">EP 23</span> <span class="chip peak">EP 53</span> <span class="chip peak">EP 63</span> <span class="chip peak">EP 77</span> <span class="chip peak">EP 90</span> <span class="chip peak">EP 100</span></div>
+      </div>
+
+      <div class="ref-block">
+        <h3>💔 the quiet sad moments</h3>
+        <p class="ref-sub">small moments that hit harder than you expect</p>
+        <div class="chips"><span class="chip punch">EP 07</span> <span class="chip punch">EP 28</span> <span class="chip punch">EP 44</span> <span class="chip punch">EP 60</span> <span class="chip punch">EP 73</span> <span class="chip punch">EP 82</span> <span class="chip punch">EP 91</span></div>
+      </div>
+
+      <div class="ref-block">
+        <h3>☀️ the lightest moments</h3>
+        <p class="ref-sub">for when you need to breathe between the heavy ones</p>
+        <div class="chips"><span class="chip light">EP 17</span> <span class="chip light">EP 26</span> <span class="chip light">EP 29</span> <span class="chip light">EP 57</span> <span class="chip light">EP 64</span> <span class="chip light">EP 74</span> <span class="chip light">EP 87</span></div>
+      </div>
+    </section>
+
+<div class="closing">
+  <div class="closing-card">
+    <p>&ldquo;Some love stories don&#x27;t end. They just move to a bench, and wait for someone to sit down.&rdquo;</p>
+    <div class="closing-end">THE END 🕯️</div>
+  </div>
+</div>
+
+<footer>made with way too many feelings, one bench, and a hundred little clocks. 🕰️<br><a class="ig-link" href="https://www.instagram.com/dusknmorning/" target="_blank" rel="noopener">📸 @dusknmorning</a></footer>
+
+</body>
+</html>
