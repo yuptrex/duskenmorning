@@ -1611,39 +1611,120 @@ footer .ig-link{font-size:20px; margin-top:8px;}
   <div class="view-counter" id="view-count" title="Total views">…</div>
 </div>
 
-<script>
-// A directly opened index.html counts locally in this browser.
-// The deployed Vercel site uses one shared, persistent Upstash counter.
-(async function loadViewCount(){
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+  import {
+    getAuth,
+    signInAnonymously
+  } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+  import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    update,
+    runTransaction,
+    serverTimestamp,
+    onDisconnect
+  } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+
+  const firebaseConfig = {
+    apiKey: 'AIzaSyAcI5-kdznUDJ0j_R3baEXZ99mErRhlfUY',
+    authDomain: 'cloud-3eacc.firebaseapp.com',
+    databaseURL: 'https://cloud-3eacc-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId: 'cloud-3eacc',
+    storageBucket: 'cloud-3eacc.firebasestorage.app',
+    messagingSenderId: '294209249530',
+    appId: '1:294209249530:web:3619cee4052f8749aa2943'
+  };
+
   const display = document.getElementById('view-count');
-  const isLocalFile = window.location.protocol === 'file:' ||
-    window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1';
+  let sessionRef = null;
+  let sessionStartedAt = 0;
+  let heartbeatId = null;
+  let ending = false;
 
-  if (isLocalFile) {
-    try {
-      const key = 'dusk-and-morning:local-views';
-      const views = Number(localStorage.getItem(key) || 0) + 1;
-      localStorage.setItem(key, String(views));
-      display.textContent = views.toLocaleString();
-      display.title = 'Views on this browser only';
-    } catch (error) {
-      display.textContent = '—';
-      display.title = 'Local view count is unavailable in this browser';
+  function currentDurationSeconds() {
+    return Math.max(0, Math.floor((performance.now() - sessionStartedAt) / 1000));
+  }
+
+  async function saveSessionProgress(status = 'online', ended = false) {
+    if (!sessionRef || ending && !ended) return;
+    const payload = {
+      status,
+      durationSeconds: currentDurationSeconds(),
+      lastActiveAt: serverTimestamp()
+    };
+    if (ended) {
+      ending = true;
+      payload.status = 'offline';
+      payload.endedAt = serverTimestamp();
     }
-    return;
+    try {
+      await update(sessionRef, payload);
+    } catch (error) {
+      console.warn('Could not update audience session:', error);
+    }
   }
 
-  try {
-    const response = await fetch('/api/views', { method: 'GET', cache: 'no-store' });
-    if (!response.ok) throw new Error('Counter service unavailable');
-    const data = await response.json();
-    display.textContent = Number(data.views).toLocaleString();
-  } catch (error) {
-    display.textContent = '—';
-    display.title = 'Shared view count unavailable. Check the Vercel and Upstash setup.';
+  async function startAudienceTracking() {
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    // Anonymous authentication gives each browser an anonymous Firebase UID.
+    const credential = await signInAnonymously(auth);
+    const user = credential.user;
+
+    // Every page opening creates a separate visit record.
+    sessionRef = push(ref(db, `audienceSessions/${user.uid}`));
+    sessionStartedAt = performance.now();
+
+    // If the tab closes or loses its connection, Firebase marks the visit offline.
+    await onDisconnect(sessionRef).update({
+      status: 'offline',
+      endedAt: serverTimestamp()
+    });
+
+    await set(sessionRef, {
+      openedAt: serverTimestamp(),
+      lastActiveAt: serverTimestamp(),
+      endedAt: null,
+      durationSeconds: 0,
+      status: 'online',
+      page: window.location.pathname || '/',
+      referrer: document.referrer ? new URL(document.referrer).origin : 'direct'
+    });
+
+    // A shared total-view number, incremented atomically in Realtime Database.
+    const totalRef = ref(db, 'totalViews');
+    const result = await runTransaction(totalRef, current => (Number(current) || 0) + 1);
+    if (result.committed) {
+      display.textContent = Number(result.snapshot.val()).toLocaleString();
+      display.title = 'Total visits';
+    }
+
+    // Heartbeat keeps the online duration current while the page remains open.
+    heartbeatId = window.setInterval(() => {
+      if (document.visibilityState === 'visible') saveSessionProgress('online');
+      else saveSessionProgress('away');
+    }, 10000);
   }
-})();
+
+  document.addEventListener('visibilitychange', () => {
+    if (sessionRef) saveSessionProgress(document.visibilityState === 'visible' ? 'online' : 'away');
+  });
+
+  window.addEventListener('pagehide', () => {
+    if (heartbeatId) window.clearInterval(heartbeatId);
+    saveSessionProgress('offline', true);
+  });
+
+  startAudienceTracking().catch(error => {
+    console.error('Firebase audience tracking failed:', error);
+    display.textContent = '—';
+    display.title = 'Firebase tracking is not configured. Check Authentication and Database Rules.';
+  });
 </script>
 
 </body>
